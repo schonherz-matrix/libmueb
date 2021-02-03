@@ -13,6 +13,7 @@ class LibmuebConan(ConanFile):
     options = {"shared": [True], "fPIC": [True]}
     default_options = {"shared": True, "fPIC": True}
     requires = "qt/[^6.0.0]@bincrafters/stable"
+    build_requires = "cmake/[^3.17.0]", "ninja/1.10.2"
     generators = "cmake"
     exports_sources = "CMakeLists.txt", "!CMakeLists.txt.user", "include/*", "src/*"
 
