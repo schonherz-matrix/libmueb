@@ -115,11 +115,11 @@ MuebTransmitter& MuebTransmitter::Instance() {
   return instance;
 }
 
-int32_t MuebTransmitter::width() const {
+std::int32_t MuebTransmitter::width() const {
   return d_ptr_->configuration_.width();
 }
 
-int32_t MuebTransmitter::height() const {
+std::int32_t MuebTransmitter::height() const {
   return d_ptr_->configuration_.height();
 }
 
