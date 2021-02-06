@@ -14,7 +14,7 @@ add_library(
   muebreceiver SHARED
   ${CMAKE_SOURCE_DIR}/include/libmueb/libmueb_global.h
   ${CMAKE_SOURCE_DIR}/include/libmueb/muebreceiver.h configuration.h
-  muebreceiver.cc configuration.cc)
+  muebreceiver_p.h muebreceiver.cc configuration.cc)
 target_include_directories(muebreceiver PUBLIC ../include/${PROJECT_NAME})
 target_link_libraries(
   muebreceiver

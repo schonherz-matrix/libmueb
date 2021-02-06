@@ -1,31 +1,6 @@
 #include "muebreceiver.h"
 
-#include <QNetworkDatagram>
-#include <QUdpSocket>
-
-#include "configuration.h"
-
-class MuebReceiverPrivate {
-  Q_DECLARE_PUBLIC(MuebReceiver)
-  Q_DISABLE_COPY(MuebReceiverPrivate)
-
- public:
-  explicit MuebReceiverPrivate(MuebReceiver *q)
-      : frame(configuration.frame()), q_ptr(q) {
-    socket.bind(configuration.broadcast_animation_port());
-
-    QObject::connect(&socket, &QUdpSocket::readyRead, q,
-                     &MuebReceiver::readPendingDatagrams);
-
-    qInfo() << "[MuebReceiver] UDP Socket will receive packets on port"
-            << configuration.broadcast_animation_port();
-  }
-
-  Configuration configuration;
-  libmueb::Frame frame;
-  QUdpSocket socket;
-  MuebReceiver *q_ptr;
-};
+#include "muebreceiver_p.h"
 
 MuebReceiver::MuebReceiver(QObject *parent)
     : QObject(parent), d_ptr_(new MuebReceiverPrivate(this)) {}
