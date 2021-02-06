@@ -95,14 +95,18 @@ bool Configuration::debug_mode() const { return debug_mode_; }
 
 void Configuration::LoadSettings() {
   // Building specific constants
+  settings_.beginGroup("building");
   floors_ = settings_.value("floors", 13).toUInt();
   rooms_per_floor_ = settings_.value("rooms_per_floor", 8).toUInt();
   windows_per_room_ = settings_.value("windows_per_room", 2).toUInt();
+  settings_.endGroup();
 
   // Hardware specific constants
+  settings_.beginGroup("hardware");
   vertical_pixel_unit_ = settings_.value("vertical_pixel_unit", 2).toUInt();
   horizontal_pixel_unit_ = settings_.value("horizontal_pixel_unit", 2).toUInt();
   color_depth_ = settings_.value("color_depth", 3).toUInt();
+  settings_.endGroup();
 
   // Software specific constants
   pixels_per_window_ = vertical_pixel_unit_ * horizontal_pixel_unit_;
@@ -117,6 +121,7 @@ void Configuration::LoadSettings() {
   frame_.fill(Qt::black);
 
   // Network protocol specific constants
+  settings_.beginGroup("network");
   protocol_type_ = 2;
   unicast_animation_port_ =
       settings_.value("unicast_animation_port", 3000).toUInt();
@@ -144,6 +149,7 @@ void Configuration::LoadSettings() {
   frame_fragment_size_ = max_windows_per_datagram_ * pixels_per_window_ * 3;
   max_packet_number_ = static_cast<std::uint32_t>(
       std::ceil(static_cast<float>(windows_) / max_windows_per_datagram_));
+  settings_.endGroup();
 
   // TODO Configuration check
 }
