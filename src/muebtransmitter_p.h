@@ -26,8 +26,6 @@ class MuebTransmitterPrivate {
   }
 
   void SendFrame(libmueb::Frame frame) {
-    std::uint8_t packet_number{0};
-
     QByteArray reduced_compressed_frame;
     // Frame color reduction and compression
     if (configuration_.color_depth() < 5) {
@@ -69,23 +67,23 @@ class MuebTransmitterPrivate {
 
     if (configuration_.max_packet_number() == 1) {
       reduced_compressed_frame.insert(0, configuration_.protocol_type())
-          .insert(1, packet_number);
+          .insert(1, static_cast<char>(0) /*packet number*/);
 
       datagram_.setData(reduced_compressed_frame);
+      socket_.writeDatagram(datagram_);
     } else {
       for (std::uint8_t i = 0; i < configuration_.max_packet_number(); ++i) {
         QByteArray data;
         data.append(configuration_.protocol_type())
-            .append(packet_number++)
+            .append(i /*packet number*/)
             .append(reduced_compressed_frame.sliced(
-                i * configuration_.frame_fragment_size(),
-                configuration_.frame_fragment_size()));
+                i * configuration_.packet_payload_size(),
+                configuration_.packet_payload_size()));
 
         datagram_.setData(data);
+        socket_.writeDatagram(datagram_);
       }
     }
-
-    socket_.writeDatagram(datagram_);
   }
 
   Configuration configuration_;
