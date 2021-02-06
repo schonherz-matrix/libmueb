@@ -21,38 +21,38 @@ inline void datagram_uncompress_error() {
 }
 
 void MuebReceiver::ReadPendingDatagrams() {
-  while (d_ptr_->socket.hasPendingDatagrams()) {
-    if (d_ptr_->socket.pendingDatagramSize() ==
-        d_ptr_->configuration.packet_size()) {
-      QNetworkDatagram datagram = d_ptr_->socket.receiveDatagram();
+  Q_D(MuebReceiver);
+
+  while (d->socket.hasPendingDatagrams()) {
+    if (d->socket.pendingDatagramSize() == d->configuration.packet_size()) {
+      QNetworkDatagram datagram = d->socket.receiveDatagram();
       QByteArray data = datagram.data();
 
       // Process datagram
       // Packet header check
       // Check protocol
-      if (data[0] != d_ptr_->configuration.protocol_type()) {
+      if (data[0] != d->configuration.protocol_type()) {
         datagram_uncompress_error();
         return;
       }
 
       auto packet_number = data[1];
-      if (packet_number >= d_ptr_->configuration.max_packet_number() ||
+      if (packet_number >= d->configuration.max_packet_number() ||
           packet_number < 0) {
         datagram_uncompress_error();
         return;
       }
 
-      data.remove(0, d_ptr_->configuration.packet_header_size());
-      auto frame_begin =
-          d_ptr_->frame.bits() +
-          packet_number * d_ptr_->configuration.frame_fragment_size();
+      data.remove(0, d->configuration.packet_header_size());
+      auto frame_begin = d->frame.bits() +
+                         packet_number * d->configuration.frame_fragment_size();
 
       // Uncompress 1 byte into 2 color components
-      if (d_ptr_->configuration.color_depth() < 5) {
+      if (d->configuration.color_depth() < 5) {
         for (auto i : data) {
           *frame_begin = i & 0xf0;
           frame_begin++;
-          *frame_begin = (i & 0x0f) << d_ptr_->configuration.factor();
+          *frame_begin = (i & 0x0f) << d->configuration.factor();
           frame_begin++;
         }
         // No compression
@@ -64,14 +64,14 @@ void MuebReceiver::ReadPendingDatagrams() {
         }
       }
 
-      emit(FrameChanged(d_ptr_->frame));
+      emit(FrameChanged(d->frame));
     }
     // Drop invalid packet
     else {
       qWarning() << "[MuebReceiver] Packet has invalid size!"
-                 << d_ptr_->socket.pendingDatagramSize() << "bytes";
+                 << d->socket.pendingDatagramSize() << "bytes";
 
-      d_ptr_->socket.receiveDatagram(0);
+      d->socket.receiveDatagram(0);
     }
   }
 }
