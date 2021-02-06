@@ -53,7 +53,7 @@ class Configuration : public QObject {
 
   std::uint32_t packet_payload_size() const;
 
-  std::uint32_t max_pixel_per_datagram() const;
+  std::uint32_t frame_fragment_size() const;
 
   std::uint32_t remainder_packet_size() const;
 
@@ -92,7 +92,7 @@ class Configuration : public QObject {
   std::uint32_t packet_header_size_;
   std::uint32_t packet_size_;
   std::uint32_t packet_payload_size_;
-  std::uint32_t max_pixel_per_datagram_;
+  std::uint32_t frame_fragment_size_;
   std::uint32_t remainder_packet_size_;
   std::uint16_t unicast_animation_port_;
   std::uint16_t broadcast_animation_port_;

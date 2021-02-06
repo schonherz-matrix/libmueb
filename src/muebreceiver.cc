@@ -70,7 +70,7 @@ void MuebReceiver::readPendingDatagrams() {
       data.remove(0, d_ptr_->configuration.packet_header_size());
       auto frame_begin =
           d_ptr_->frame.bits() +
-          packet_number * d_ptr_->configuration.max_pixel_per_datagram();
+          packet_number * d_ptr_->configuration.frame_fragment_size();
 
       // Uncompress 1 byte into 2 color components
       if (d_ptr_->configuration.color_depth() < 5) {

@@ -65,8 +65,8 @@ std::uint32_t Configuration::packet_payload_size() const {
   return packet_payload_size_;
 }
 
-std::uint32_t Configuration::max_pixel_per_datagram() const {
-  return max_pixel_per_datagram_;
+std::uint32_t Configuration::frame_fragment_size() const {
+  return frame_fragment_size_;
 }
 
 std::uint32_t Configuration::remainder_packet_size() const {
@@ -139,7 +139,7 @@ void Configuration::LoadSettings() {
   packet_size_ =
       packet_header_size_ + max_windows_per_datagram_ * window_byte_size_;
   packet_payload_size_ = max_windows_per_datagram_ * window_byte_size_;
-  max_pixel_per_datagram_ = max_windows_per_datagram_ * pixels_per_window_;
+  frame_fragment_size_ = max_windows_per_datagram_ * pixels_per_window_ * 3;
   max_packet_number_ = static_cast<std::uint32_t>(
       std::ceil(static_cast<float>(windows_) / max_windows_per_datagram_));
 

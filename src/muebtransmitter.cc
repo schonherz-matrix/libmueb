@@ -76,8 +76,8 @@ class MuebTransmitterPrivate {
         data.append(configuration_.protocol_type())
             .append(packet_number++)
             .append(reduced_compressed_frame.sliced(
-                i * configuration_.packet_payload_size(),
-                configuration_.packet_payload_size()));
+                i * configuration_.frame_fragment_size(),
+                configuration_.frame_fragment_size()));
 
         datagram_.setData(data);
       }
