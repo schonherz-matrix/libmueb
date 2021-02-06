@@ -18,8 +18,11 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_DEBUG_POSTFIX _d)
 
-include(conanbuildinfo.cmake)
+set(BUILD_WITH_CONAN OFF)
+include(conanbuildinfo.cmake OPTIONAL)
+if(BUILD_WITH_CONAN)
 conan_basic_setup()
+endif()
 
 find_package(
   Qt6

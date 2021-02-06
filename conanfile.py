@@ -27,6 +27,7 @@ class LibmuebConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
+        cmake.definitions["BUILD_WITH_CONAN"] = "ON"
         cmake.configure()
         cmake.build()
 
