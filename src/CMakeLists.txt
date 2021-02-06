@@ -2,7 +2,7 @@ add_library(
   muebtransmitter SHARED
   ${CMAKE_SOURCE_DIR}/include/libmueb/libmueb_global.h
   ${CMAKE_SOURCE_DIR}/include/libmueb/muebtransmitter.h configuration.h
-  muebtransmitter.cc configuration.cc)
+  muebtransmitter_p.h muebtransmitter.cc configuration.cc)
 target_include_directories(muebtransmitter PUBLIC ../include/${PROJECT_NAME})
 target_link_libraries(
   muebtransmitter
