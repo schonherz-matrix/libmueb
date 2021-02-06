@@ -12,13 +12,12 @@ class MuebReceiverPrivate {
   Q_DISABLE_COPY(MuebReceiverPrivate)
 
  public:
-  explicit MuebReceiverPrivate(MuebReceiver *q)
-      : frame(configuration.frame()), q_ptr(q) {
+  explicit MuebReceiverPrivate(MuebReceiver *receiver)
+      : frame(configuration.frame()), q_ptr(receiver) {
     socket.bind(configuration.broadcast_animation_port());
 
-    QObject::connect(&socket, &QUdpSocket::readyRead, q,
-                     &MuebReceiver::ReadPendingDatagrams);
-
+    receiver->connect(&socket, &QUdpSocket::readyRead,
+                      &MuebReceiver::ReadPendingDatagrams);
     qInfo() << "[MuebReceiver] UDP Socket will receive packets on port"
             << configuration.broadcast_animation_port();
   }
