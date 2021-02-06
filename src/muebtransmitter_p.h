@@ -15,10 +15,10 @@ class MuebTransmitterPrivate {
   Q_DISABLE_COPY(MuebTransmitterPrivate)
 
  public:
-  explicit MuebTransmitterPrivate(MuebTransmitter* q)
+  explicit MuebTransmitterPrivate(MuebTransmitter* transmitter)
       : datagram_(QByteArray(), configuration_.target_address(),
                   configuration_.broadcast_animation_port()),
-        q_ptr(q) {
+        q_ptr(transmitter) {
     qInfo().noquote() << "[MuebTransmitter] UDP Socket will send frame to"
                       << QString("%1:%2")
                              .arg(configuration_.target_address().toString())
