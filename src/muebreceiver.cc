@@ -15,7 +15,11 @@ MuebReceiver &MuebReceiver::Instance() {
   return instance;
 }
 
-libmueb::Frame MuebReceiver::frame() { return d_ptr_->frame; }
+libmueb::Frame MuebReceiver::frame() const {
+  Q_D(const MuebReceiver);
+
+  return d->frame;
+}
 
 inline void datagram_uncompress_error() {
   qWarning() << "[MuebReceiver] Processed packet is invalid! Check the header "

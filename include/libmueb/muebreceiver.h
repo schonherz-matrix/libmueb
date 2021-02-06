@@ -14,7 +14,7 @@ class LIBMUEB_EXPORT MuebReceiver final : public QObject {
 
  public:
   static MuebReceiver& Instance();
-  libmueb::Frame frame();
+  libmueb::Frame frame() const;
 
  signals:
   void FrameChanged(libmueb::Frame frame);
