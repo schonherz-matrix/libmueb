@@ -3,7 +3,9 @@
 #include <cmath>
 
 Configuration::Configuration(QObject *parent)
-    : QObject(parent), settings_("matrix-group", "libmueb") {
+    : QObject(parent),
+      settings_(QSettings::IniFormat, QSettings::UserScope, "matrix-group",
+                "libmueb") {
   LoadSettings();
 }
 
