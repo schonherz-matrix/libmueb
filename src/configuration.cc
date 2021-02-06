@@ -123,7 +123,7 @@ void Configuration::LoadSettings() {
 
   // Debug specific constants
   // Send packets to localhost
-  debug_mode_ = settings_.value("debugMode", false).toBool();
+  debug_mode_ = settings_.value("debug_mode", false).toBool();
 
   target_address_ =
       (debug_mode_)
