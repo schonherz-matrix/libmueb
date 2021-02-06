@@ -25,7 +25,7 @@ class LIBMUEB_EXPORT MuebReceiver final : public QObject {
   explicit MuebReceiver(QObject* parent = nullptr);
   ~MuebReceiver();
 
-  void readPendingDatagrams();
+  void ReadPendingDatagrams();
 };
 
 #endif  // LIBMUEB_MUEBRECEIVER_H_

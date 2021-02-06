@@ -17,7 +17,7 @@ class MuebReceiverPrivate {
     socket.bind(configuration.broadcast_animation_port());
 
     QObject::connect(&socket, &QUdpSocket::readyRead, q,
-                     &MuebReceiver::readPendingDatagrams);
+                     &MuebReceiver::ReadPendingDatagrams);
 
     qInfo() << "[MuebReceiver] UDP Socket will receive packets on port"
             << configuration.broadcast_animation_port();

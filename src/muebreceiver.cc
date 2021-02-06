@@ -20,7 +20,7 @@ inline void datagram_uncompress_error() {
                 "or packet contents(size)";
 }
 
-void MuebReceiver::readPendingDatagrams() {
+void MuebReceiver::ReadPendingDatagrams() {
   while (d_ptr_->socket.hasPendingDatagrams()) {
     if (d_ptr_->socket.pendingDatagramSize() ==
         d_ptr_->configuration.packet_size()) {
