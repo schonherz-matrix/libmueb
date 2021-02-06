@@ -1,5 +1,7 @@
 #include "muebreceiver.h"
 
+#include <cstring>
+
 #include "muebreceiver_p.h"
 
 MuebReceiver::MuebReceiver(QObject *parent)
@@ -57,11 +59,7 @@ void MuebReceiver::ReadPendingDatagrams() {
         }
         // No compression
       } else {
-        // FIXME use better copy method
-        for (auto i : data) {
-          *frame_begin = i;
-          frame_begin++;
-        }
+        std::memcpy(frame_begin, data.constData(), data.size());
       }
 
       emit(FrameChanged(d->frame));
