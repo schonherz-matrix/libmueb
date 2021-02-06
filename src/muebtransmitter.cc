@@ -65,13 +65,13 @@ class MuebTransmitterPrivate {
           reinterpret_cast<const char*>(frame.bits()), frame.sizeInBytes());
     }
 
-    for (std::uint8_t i = 0; i < configuration_.max_packet_number(); ++i) {
-      if (configuration_.max_packet_number() == 1) {
-        reduced_compressed_frame.insert(0, configuration_.protocol_type())
-            .insert(1, packet_number);
+    if (configuration_.max_packet_number() == 1) {
+      reduced_compressed_frame.insert(0, configuration_.protocol_type())
+          .insert(1, packet_number);
 
-        datagram_.setData(reduced_compressed_frame);
-      } else {
+      datagram_.setData(reduced_compressed_frame);
+    } else {
+      for (std::uint8_t i = 0; i < configuration_.max_packet_number(); ++i) {
         QByteArray data;
         data.append(configuration_.protocol_type())
             .append(packet_number++)
@@ -81,9 +81,9 @@ class MuebTransmitterPrivate {
 
         datagram_.setData(data);
       }
-
-      socket_.writeDatagram(datagram_);
     }
+
+    socket_.writeDatagram(datagram_);
   }
 
   Configuration configuration_;
