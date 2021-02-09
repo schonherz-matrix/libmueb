@@ -10,7 +10,7 @@ MuebTransmitter::~MuebTransmitter() { delete d_ptr_; }
 void MuebTransmitter::SendFrame(libmueb::Frame frame) {
   Q_D(MuebTransmitter);
 
-  if (frame.isNull() || frame.format() == QImage::Format_Invalid ||
+  if (frame.isNull() || frame.format() != QImage::Format_RGB888 ||
       frame.width() != d->configuration_.width() ||
       frame.height() != d->configuration_.height()) {
     qWarning() << "[MuebTransmitter] Frame is invalid";
