@@ -2,6 +2,7 @@
 #define LIBMUEB_MUEBRECEIVER_H_
 
 #include <QObject>
+#include <QPixmap>
 
 #include "libmueb_global.h"
 
@@ -14,10 +15,10 @@ class LIBMUEB_EXPORT MuebReceiver final : public QObject {
 
  public:
   static MuebReceiver& Instance();
-  libmueb::Frame frame() const;
+  QPixmap frame() const;
 
  signals:
-  void FrameChanged(libmueb::Frame frame);
+  void FrameChanged(QPixmap frame);
 
  private:
   MuebReceiverPrivate* d_ptr_;

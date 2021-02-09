@@ -15,10 +15,10 @@ MuebReceiver &MuebReceiver::Instance() {
   return instance;
 }
 
-libmueb::Frame MuebReceiver::frame() const {
+QPixmap MuebReceiver::frame() const {
   Q_D(const MuebReceiver);
 
-  return d->frame;
+  return QPixmap::fromImage(d->frame);
 }
 
 inline void datagram_uncompress_error() {
@@ -66,7 +66,7 @@ void MuebReceiver::ReadPendingDatagrams() {
         std::memcpy(frame_begin, data.constData(), data.size());
       }
 
-      emit(FrameChanged(d->frame));
+      emit(FrameChanged(QPixmap::fromImage(d->frame)));
     }
     // Drop invalid packet
     else {
