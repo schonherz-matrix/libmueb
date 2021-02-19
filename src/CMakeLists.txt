@@ -6,8 +6,8 @@ add_library(
 target_include_directories(muebtransmitter PUBLIC ../include/${PROJECT_NAME})
 target_link_libraries(
   muebtransmitter
-  PUBLIC Qt6::Core Qt6::Gui
-  PRIVATE Qt6::Network Qt6::Concurrent)
+  PUBLIC Qt5::Core Qt5::Gui
+  PRIVATE Qt5::Network Qt5::Concurrent)
 target_compile_definitions(muebtransmitter PRIVATE LIBMUEB_LIBRARY)
 
 add_library(
@@ -18,6 +18,6 @@ add_library(
 target_include_directories(muebreceiver PUBLIC ../include/${PROJECT_NAME})
 target_link_libraries(
   muebreceiver
-  PUBLIC Qt6::Core Qt6::Gui
-  PRIVATE Qt6::Network)
+  PUBLIC Qt5::Core Qt5::Gui
+  PRIVATE Qt5::Network)
 target_compile_definitions(muebreceiver PRIVATE LIBMUEB_LIBRARY)

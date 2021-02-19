@@ -22,12 +22,18 @@ void MuebTransmitter::SendFrame(libmueb::Frame frame) {
   QByteArray reduced_compressed_frame;
   // Frame color reduction and compression
   if (d->configuration_.color_depth() < 5) {
+    // FIXME Remove in Qt 6
     reduced_compressed_frame = QtConcurrent::blockingMappedReduced<QByteArray>(
         frame.constBits(), frame.constBits() + frame.sizeInBytes(),
-        /* Reference:
-         * http://threadlocalmutex.com/?p=48
-         * http://threadlocalmutex.com/?page_id=60
-         */
+        d->reduceColor, d->compressColor,
+        QtConcurrent::OrderedReduce | QtConcurrent::SequentialReduce);
+
+    /* FIXME Add in Qt 6
+    reduced_compressed_frame = QtConcurrent::blockingMappedReduced<QByteArray>(
+        frame.constBits(), frame.constBits() + frame.sizeInBytes(),
+        // Reference:
+        // http://threadlocalmutex.com/?p=48
+        // http://threadlocalmutex.com/?page_id=60
         [d](const uchar& color) -> uchar {
           if (d->configuration_.color_depth() == 3) {
             return (color * 225 + 4096) >> 13;
@@ -49,7 +55,7 @@ void MuebTransmitter::SendFrame(libmueb::Frame frame) {
 
           msb = !msb;
         },
-        QtConcurrent::OrderedReduce | QtConcurrent::SequentialReduce);
+        QtConcurrent::OrderedReduce | QtConcurrent::SequentialReduce);*/
   }
   // No compression
   else {
@@ -68,9 +74,13 @@ void MuebTransmitter::SendFrame(libmueb::Frame frame) {
       QByteArray data;
       data.append(d->configuration_.protocol_type())
           .append(i /*packet number*/)
-          .append(reduced_compressed_frame.sliced(
+          .append(reduced_compressed_frame.mid(
               i * d->configuration_.packet_payload_size(),
               d->configuration_.packet_payload_size()));
+      /* FIXME in Qt6
+      .append(reduced_compressed_frame.sliced(
+          i * d->configuration_.packet_payload_size(),
+          d->configuration_.packet_payload_size()));*/
 
       d->datagram_.setData(data);
       d->socket_.writeDatagram(d->datagram_);

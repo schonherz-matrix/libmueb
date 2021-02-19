@@ -25,7 +25,7 @@ conan_basic_setup()
 endif()
 
 find_package(
-  Qt6
+  Qt5
   COMPONENTS Core Gui Network Concurrent
   REQUIRED)
 

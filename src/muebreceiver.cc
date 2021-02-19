@@ -31,18 +31,18 @@ void MuebReceiver::ReadPendingDatagrams() {
 
   while (d->socket.hasPendingDatagrams()) {
     if (d->socket.pendingDatagramSize() == d->configuration.packet_size()) {
-      QNetworkDatagram datagram = d->socket.receiveDatagram();
+      const QNetworkDatagram &datagram = d->socket.receiveDatagram();
       QByteArray data = datagram.data();
 
       // Process datagram
       // Packet header check
       // Check protocol
-      if (data[0] != d->configuration.protocol_type()) {
+      if (data.at(0) != d->configuration.protocol_type()) {
         datagram_uncompress_error();
         return;
       }
 
-      auto packet_number = data[1];
+      auto packet_number = data.at(1);
       if (packet_number >= d->configuration.max_packet_number() ||
           packet_number < 0) {
         datagram_uncompress_error();
