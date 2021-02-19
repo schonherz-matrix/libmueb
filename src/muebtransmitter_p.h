@@ -31,6 +31,10 @@ class MuebTransmitterPrivate {
   MuebTransmitter* q_ptr;
 
   // FIXME Remove in Qt 6
+  /* Reference:
+   * http://threadlocalmutex.com/?p=48
+   * http://threadlocalmutex.com/?page_id=60
+   */
   std::function<uchar(const uchar&)> reduceColor =
       [this](const uchar& color) -> uchar {
     if (configuration_.color_depth() == 3) {
