@@ -6,6 +6,7 @@
 #include <QNetworkDatagram>
 #include <QUdpSocket>
 #include <QtConcurrent>
+#include <functional>
 
 #include "configuration.h"
 #include "muebtransmitter.h"
