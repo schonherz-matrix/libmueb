@@ -1,5 +1,5 @@
-#ifndef LIBMUEB_MUEBTRANSMITTERCHANNEL_H_
-#define LIBMUEB_MUEBTRANSMITTERCHANNEL_H_
+#ifndef LIBMUEB_MUEBCHANNEL_H_
+#define LIBMUEB_MUEBCHANNEL_H_
 
 #include <QImage>
 #include <QObject>
@@ -38,4 +38,4 @@ class MuebChannel : public QObject {
   void FrameChanged(QPixmap frame);
 };
 
-#endif  // LIBMUEB_MUEBTRANSMITTERCHANNEL_H_
+#endif  // LIBMUEB_MUEBCHANNEL_H_
