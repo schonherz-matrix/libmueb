@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="./shared/qwebchannel.js"></script>
+    <script type="text/javascript">
+        //BEGIN SETUP
+        window.onload = function () {
+            if (location.search != "")
+                var baseUrl = (/[?&]webChannelBaseUrl=([A-Za-z0-9\-:/\.]+)/.exec(location.search)[1]);
+            else
+                var baseUrl = "ws://localhost:12345";
+
+            console.log("Connecting to WebSocket server at " + baseUrl + ".");
+            var socket = new WebSocket(baseUrl);
+
+            socket.onclose = function () {
+                console.error("web channel closed");
+            };
+            socket.onerror = function (error) {
+                console.error("web channel error: " + error);
+            };
+            socket.onopen = function () {
+                console.log("WebSocket connected, setting up QWebChannel.");
+                new QWebChannel(socket, function (channel) {
+                    // make mueb_channel object accessible globally
+                    window.mueb_channel = channel.objects.mueb_channel;
+
+                    mueb_channel.SendFrame.connect(function (message) {
+                        document.getElementById("image").src = message;
+                    });
+
+                    //mueb_channel.ReceiveFrame("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAaCAIAAABZ+cloAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5QIUEgA5b0FMLwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAAlSURBVEjH7c1BAQAABASwo39nUvDaCqwmtzoCgUAgEAgEgpdgAdm7ATNLz2wUAAAAAElFTkSuQmCC");
+
+                    console.log("Connected to WebChannel, ready to send/receive messages!");
+                });
+            }
+        }
+        //END SETUP
+    </script>
+    <title>Libmueb channel test</title>
+</head>
+
+<body>
+    <img id="image" width="320" height="260" style="image-rendering: pixelated;"></img>
+</body>
+
+</html>
