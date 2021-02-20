@@ -14,7 +14,9 @@ class MuebReceiverPrivate {
  public:
   explicit MuebReceiverPrivate(MuebReceiver *receiver)
       : frame(configuration.frame()), q_ptr(receiver) {
-    socket.bind(configuration.broadcast_animation_port());
+    socket.bind(
+        configuration.broadcast_animation_port(),
+        QAbstractSocket::ShareAddress | QAbstractSocket::ReuseAddressHint);
 
     QObject::connect(&socket, &QUdpSocket::readyRead, receiver,
                      &MuebReceiver::ReadPendingDatagrams);
