@@ -67,10 +67,6 @@ quint32 Configuration::remainder_packet_size() const {
   return remainder_packet_size_;
 }
 
-quint16 Configuration::unicast_animation_port() const {
-  return unicast_animation_port_;
-}
-
 quint16 Configuration::broadcast_animation_port() const {
   return broadcast_animation_port_;
 }
@@ -113,8 +109,6 @@ void Configuration::LoadSettings() {
   // Network protocol specific constants
   settings_.beginGroup("network");
   protocol_type_ = 2;
-  unicast_animation_port_ =
-      settings_.value("unicast_animation_port", 3000).toUInt();
   broadcast_animation_port_ =
       settings_.value("broadcast_animation_port", 10000).toUInt();
 

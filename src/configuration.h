@@ -55,8 +55,6 @@ class Configuration : public QObject {
 
   quint32 remainder_packet_size() const;
 
-  quint16 unicast_animation_port() const;
-
   quint16 broadcast_animation_port() const;
 
   quint8 max_packet_number() const;
@@ -92,7 +90,6 @@ class Configuration : public QObject {
   quint32 packet_payload_size_;
   quint32 frame_fragment_size_;
   quint32 remainder_packet_size_;
-  quint16 unicast_animation_port_;
   quint16 broadcast_animation_port_;
   quint8 max_packet_number_;
   quint8 color_depth_;
