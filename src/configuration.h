@@ -45,23 +45,8 @@ class Configuration : public QObject {
 
  private:
   QImage frame_;
-  QSettings settings_;
   QHostAddress target_address_;
-  quint32 floors_;
-  quint32 rooms_per_floor_;
-  quint32 windows_per_room_;
-  quint32 vertical_pixel_unit_;
-  quint32 horizontal_pixel_unit_;
-  quint32 pixels_per_window_;
-  quint32 window_per_floor_;
-  quint32 windows_;
   quint32 pixels_;
-  // Qt width, height is signed
-  qint32 width_;
-  qint32 height_;
-  //
-  quint32 window_byte_size_;
-  quint32 max_windows_per_datagram_;
   quint32 packet_header_size_;
   quint32 packet_size_;
   quint32 packet_payload_size_;

@@ -8,10 +8,7 @@ constexpr quint8 kProtocolType{2};
 }  // namespace
 
 // TODO check, variable types
-Configuration::Configuration(QObject *parent)
-    : QObject(parent),
-      settings_(QSettings::IniFormat, QSettings::UserScope, "matrix-group",
-                "libmueb") {
+Configuration::Configuration(QObject *parent) : QObject(parent) {
   LoadSettings();
 }
 
@@ -21,9 +18,9 @@ QHostAddress Configuration::target_address() const { return target_address_; }
 
 quint32 Configuration::pixels() const { return pixels_; }
 
-qint32 Configuration::width() const { return width_; }
+qint32 Configuration::width() const { return frame_.width(); }
 
-qint32 Configuration::height() const { return height_; }
+qint32 Configuration::height() const { return frame_.height(); }
 
 quint8 Configuration::protocol_type() const { return kProtocolType; }
 
@@ -54,60 +51,63 @@ quint8 Configuration::factor() const { return factor_; }
 bool Configuration::debug_mode() const { return debug_mode_; }
 
 void Configuration::LoadSettings() {
+  QSettings settings(QSettings::IniFormat, QSettings::UserScope, "matrix-group",
+                     "libmueb");
   // Building specific constants
-  settings_.beginGroup("building");
-  floors_ = settings_.value("floors", 13).toUInt();
-  rooms_per_floor_ = settings_.value("rooms_per_floor", 8).toUInt();
-  windows_per_room_ = settings_.value("windows_per_room", 2).toUInt();
-  settings_.endGroup();
+  settings.beginGroup("building");
+  quint32 floors = settings.value("floors", 13).toUInt();
+  quint32 rooms_per_floor = settings.value("rooms_per_floor", 8).toUInt();
+  quint32 windows_per_room = settings.value("windows_per_room", 2).toUInt();
+  settings.endGroup();
 
   // Hardware specific constants
-  settings_.beginGroup("hardware");
-  vertical_pixel_unit_ = settings_.value("vertical_pixel_unit", 2).toUInt();
-  horizontal_pixel_unit_ = settings_.value("horizontal_pixel_unit", 2).toUInt();
-  color_depth_ = settings_.value("color_depth", 3).toUInt();
-  settings_.endGroup();
+  settings.beginGroup("hardware");
+  quint32 vertical_pixel_unit =
+      settings.value("vertical_pixel_unit", 2).toUInt();
+  quint32 horizontal_pixel_unit =
+      settings.value("horizontal_pixel_unit", 2).toUInt();
+  color_depth_ = settings.value("color_depth", 3).toUInt();
+  settings.endGroup();
 
-  pixels_per_window_ = vertical_pixel_unit_ * horizontal_pixel_unit_;
-  window_per_floor_ = rooms_per_floor_ * windows_per_room_;
-  windows_ = floors_ * window_per_floor_;
-  pixels_ = windows_ * pixels_per_window_;
-  width_ = window_per_floor_ * horizontal_pixel_unit_;
-  height_ = floors_ * vertical_pixel_unit_;
+  quint32 pixels_per_window = vertical_pixel_unit * horizontal_pixel_unit;
+  quint32 window_per_floor = rooms_per_floor * windows_per_room;
+  quint32 windows = floors * window_per_floor;
+  pixels_ = windows * pixels_per_window;
   factor_ = 8 - color_depth_;
   // Alpha channel is not supported by hardware
   // The image is stored using a 24-bit RGB format (8-8-8)
-  frame_ = QImage(width_, height_, QImage::Format_RGB888);
+  frame_ = QImage(window_per_floor * horizontal_pixel_unit,
+                  floors * vertical_pixel_unit, QImage::Format_RGB888);
   frame_.fill(Qt::black);
 
   // Network protocol specific constants
-  settings_.beginGroup("network");
+  settings.beginGroup("network");
   broadcast_animation_port_ =
-      settings_.value("broadcast_animation_port", 10000).toUInt();
+      settings.value("broadcast_animation_port", 10000).toUInt();
 
   // Send packets to localhost
-  debug_mode_ = settings_.value("debug_mode", false).toBool();
+  debug_mode_ = settings.value("debug_mode", false).toBool();
 
   target_address_ =
       (debug_mode_)
           ? QHostAddress("127.0.0.1")
           : QHostAddress(
-                settings_.value("target_address", "10.6.255.255").toString());
-  window_byte_size_ = (color_depth_ >= 3 && color_depth_ < 5)
-                          ? pixels_per_window_ * kRgbByteSize / 2
-                          : pixels_per_window_ * kRgbByteSize;
-  max_windows_per_datagram_ =
-      settings_.value("max_windows_per_datagram", windows_).toUInt();
+                settings.value("target_address", "10.6.255.255").toString());
+  quint32 window_byte_size = (color_depth_ >= 3 && color_depth_ < 5)
+                                 ? pixels_per_window * kRgbByteSize / 2
+                                 : pixels_per_window * kRgbByteSize;
+  quint32 max_windows_per_datagram =
+      settings.value("max_windows_per_datagram", windows).toUInt();
   packet_header_size_ = 2;
   packet_size_ =
-      packet_header_size_ + max_windows_per_datagram_ * window_byte_size_;
-  packet_payload_size_ = max_windows_per_datagram_ * window_byte_size_;
+      packet_header_size_ + max_windows_per_datagram * window_byte_size;
+  packet_payload_size_ = max_windows_per_datagram * window_byte_size;
   // Uncompressed frame fragment byte size
   frame_fragment_size_ =
-      max_windows_per_datagram_ * pixels_per_window_ * kRgbByteSize;
+      max_windows_per_datagram * pixels_per_window * kRgbByteSize;
   max_packet_number_ =
-      qCeil(static_cast<qreal>(windows_) / max_windows_per_datagram_);
-  settings_.endGroup();
+      qCeil(static_cast<qreal>(windows) / max_windows_per_datagram);
+  settings.endGroup();
 
   // TODO Configuration check
 }
