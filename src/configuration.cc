@@ -1,6 +1,6 @@
 #include "configuration.h"
 
-#include <cmath>
+#include <QtMath>
 
 // TODO check, remove unused parameters
 // TODO check, variable types
@@ -129,8 +129,8 @@ void Configuration::LoadSettings() {
       packet_header_size_ + max_windows_per_datagram_ * window_byte_size_;
   packet_payload_size_ = max_windows_per_datagram_ * window_byte_size_;
   frame_fragment_size_ = max_windows_per_datagram_ * pixels_per_window_ * 3;
-  max_packet_number_ = static_cast<quint32>(
-      std::ceil(static_cast<float>(windows_) / max_windows_per_datagram_));
+  max_packet_number_ =
+      qCeil(static_cast<qreal>(windows_) / max_windows_per_datagram_);
   settings_.endGroup();
 
   // TODO Configuration check
