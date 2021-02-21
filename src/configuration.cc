@@ -94,7 +94,6 @@ void Configuration::LoadSettings() {
   color_depth_ = settings_.value("color_depth", 3).toUInt();
   settings_.endGroup();
 
-  // Software specific constants
   pixels_per_window_ = vertical_pixel_unit_ * horizontal_pixel_unit_;
   window_per_floor_ = rooms_per_floor_ * windows_per_room_;
   windows_ = floors_ * window_per_floor_;
@@ -112,7 +111,6 @@ void Configuration::LoadSettings() {
   broadcast_animation_port_ =
       settings_.value("broadcast_animation_port", 10000).toUInt();
 
-  // Debug specific constants
   // Send packets to localhost
   debug_mode_ = settings_.value("debug_mode", false).toBool();
 
