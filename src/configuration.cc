@@ -14,13 +14,11 @@ Configuration::Configuration(QObject *parent) : QObject(parent) {
 
 QImage Configuration::frame() const { return frame_; }
 
+const QImage &Configuration::ConstFrame() const { return frame_; }
+
 QHostAddress Configuration::target_address() const { return target_address_; }
 
 quint32 Configuration::pixels() const { return pixels_; }
-
-qint32 Configuration::width() const { return frame_.width(); }
-
-qint32 Configuration::height() const { return frame_.height(); }
 
 quint8 Configuration::protocol_type() const { return kProtocolType; }
 

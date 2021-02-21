@@ -11,8 +11,8 @@ void MuebTransmitter::SendFrame(libmueb::Frame frame) {
   Q_D(MuebTransmitter);
 
   if (frame.isNull() || frame.format() == QImage::Format_Invalid ||
-      frame.width() != d->configuration_.width() ||
-      frame.height() != d->configuration_.height()) {
+      frame.width() != d->configuration_.ConstFrame().width() ||
+      frame.height() != d->configuration_.ConstFrame().height()) {
     qWarning() << "[MuebTransmitter] Frame is invalid";
     return;
   }
@@ -97,13 +97,13 @@ MuebTransmitter& MuebTransmitter::Instance() {
 quint32 MuebTransmitter::width() const {
   Q_D(const MuebTransmitter);
 
-  return d->configuration_.width();
+  return d->configuration_.ConstFrame().width();
 }
 
 quint32 MuebTransmitter::height() const {
   Q_D(const MuebTransmitter);
 
-  return d->configuration_.height();
+  return d->configuration_.ConstFrame().height();
 }
 
 libmueb::Frame MuebTransmitter::frame() const {

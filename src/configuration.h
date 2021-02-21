@@ -11,17 +11,14 @@ class Configuration : public QObject {
   Q_OBJECT
 
  public:
-  explicit Configuration(QObject *parent = nullptr);
+  explicit Configuration(QObject* parent = nullptr);
 
   QImage frame() const;
+  const QImage& ConstFrame() const;
 
   QHostAddress target_address() const;
 
   quint32 pixels() const;
-
-  qint32 width() const;
-
-  qint32 height() const;
 
   quint8 protocol_type() const;
 
