@@ -7,6 +7,8 @@
 #include <QSettings>
 #include <QtGlobal>
 
+namespace libmueb {
+
 class Configuration : public QObject {
   Q_OBJECT
 
@@ -56,5 +58,7 @@ class Configuration : public QObject {
 
   void LoadSettings();
 };
+
+}  // namespace libmueb
 
 #endif  // LIBMUEB_CONFIGURATION_H_

@@ -4,6 +4,8 @@
 
 #include "muebreceiver_p.h"
 
+namespace libmueb {
+
 MuebReceiver::MuebReceiver(QObject *parent)
     : QObject(parent), d_ptr_(new MuebReceiverPrivate(this)) {}
 
@@ -77,3 +79,5 @@ void MuebReceiver::ReadPendingDatagrams() {
     }
   }
 }
+
+}  // namespace libmueb

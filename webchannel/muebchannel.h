@@ -7,6 +7,8 @@
 #include "muebreceiver.h"
 #include "muebtransmitter.h"
 
+namespace libmueb {
+
 /*
     An instance of this class gets published over the WebChannel and is then
    accessible to HTML clients.
@@ -46,5 +48,7 @@ class MuebChannel : public QObject {
 
   void FrameChanged(QPixmap frame);
 };
+
+}  // namespace libmueb
 
 #endif  // LIBMUEB_MUEBCHANNEL_H_

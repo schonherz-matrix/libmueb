@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QString>
 
+namespace libmueb {
+
 MuebChannel::MuebChannel(QObject *parent)
     : QObject(parent),
       transmitter_(MuebTransmitter::Instance()),
@@ -41,3 +43,5 @@ void MuebChannel::FrameChanged(QPixmap frame) {
 
   emit SendFrame(base64);
 }
+
+}  // namespace libmueb

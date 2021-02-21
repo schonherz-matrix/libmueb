@@ -5,6 +5,8 @@
 
 #include "libmueb_global.h"
 
+namespace libmueb {
+
 class MuebTransmitterPrivate;
 
 class LIBMUEB_EXPORT MuebTransmitter final : public QObject {
@@ -33,5 +35,7 @@ class LIBMUEB_EXPORT MuebTransmitter final : public QObject {
   explicit MuebTransmitter(QObject* parent = nullptr);
   ~MuebTransmitter();
 };
+
+}  // namespace libmueb
 
 #endif  // LIBMUEB_MUEBTRANSMITTER_H_

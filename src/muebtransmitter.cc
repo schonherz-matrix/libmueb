@@ -2,6 +2,8 @@
 
 #include "muebtransmitter_p.h"
 
+namespace libmueb {
+
 MuebTransmitter::MuebTransmitter(QObject* parent)
     : QObject(parent), d_ptr_(new MuebTransmitterPrivate(this)) {}
 
@@ -123,3 +125,5 @@ libmueb::Frame MuebTransmitter::frame() const {
 
   return d->configuration_.frame();
 }
+
+}  // namespace libmueb

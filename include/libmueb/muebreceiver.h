@@ -6,6 +6,8 @@
 
 #include "libmueb_global.h"
 
+namespace libmueb {
+
 class MuebReceiverPrivate;
 
 class LIBMUEB_EXPORT MuebReceiver final : public QObject {
@@ -28,5 +30,7 @@ class LIBMUEB_EXPORT MuebReceiver final : public QObject {
 
   void ReadPendingDatagrams();
 };
+
+}  // namespace libmueb
 
 #endif  // LIBMUEB_MUEBRECEIVER_H_

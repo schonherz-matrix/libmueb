@@ -2,6 +2,8 @@
 
 #include <QtMath>
 
+namespace libmueb {
+
 namespace {
 constexpr quint8 kRgbByteSize{3};
 constexpr quint8 kProtocolType{2};
@@ -108,3 +110,5 @@ void Configuration::LoadSettings() {
 
   // TODO Configuration check
 }
+
+}  // namespace libmueb

@@ -7,6 +7,8 @@
 #include "configuration.h"
 #include "muebreceiver.h"
 
+namespace libmueb {
+
 class MuebReceiverPrivate {
   Q_DECLARE_PUBLIC(MuebReceiver)
   Q_DISABLE_COPY(MuebReceiverPrivate)
@@ -29,5 +31,7 @@ class MuebReceiverPrivate {
   QUdpSocket socket;
   MuebReceiver *q_ptr;
 };
+
+}  // namespace libmueb
 
 #endif  // LIBMUEB_MUEBRECEIVER_P_H_

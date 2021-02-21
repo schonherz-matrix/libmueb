@@ -11,6 +11,8 @@
 #include "configuration.h"
 #include "muebtransmitter.h"
 
+namespace libmueb {
+
 class MuebTransmitterPrivate {
   Q_DECLARE_PUBLIC(MuebTransmitter)
   Q_DISABLE_COPY(MuebTransmitterPrivate)
@@ -62,5 +64,7 @@ class MuebTransmitterPrivate {
         msb = !msb;
       };
 };
+
+}  // namespace libmueb
 
 #endif  // LIBMUEB_MUEBTRANSMITTER_P_H_

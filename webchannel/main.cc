@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
                    &channel, &QWebChannel::connectTo);
 
   // setup the MuebChannel and publish it to the QWebChannel
-  MuebChannel mueb_channel;
+  libmueb::MuebChannel mueb_channel;
   channel.registerObject(QStringLiteral("mueb_channel"), &mueb_channel);
 
   return a.exec();
