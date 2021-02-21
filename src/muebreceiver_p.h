@@ -22,8 +22,11 @@ class MuebReceiverPrivate {
 
     QObject::connect(&socket, &QUdpSocket::readyRead, receiver,
                      &MuebReceiver::ReadPendingDatagrams);
-    qInfo() << "[MuebReceiver] UDP Socket will receive packets on port"
-            << configuration.broadcast_animation_port();
+    qInfo().noquote()
+        << QString(
+               "[MuebReceiver(%1)] UDP Socket will receive packets on port %2")
+               .arg(configuration.debug_mode() ? "DEBUG MODE" : "NORMAL MODE")
+               .arg(configuration.broadcast_animation_port());
   }
 
   Configuration configuration;
