@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+// TODO check, remove unused parameters
+// TODO check, variable types
 Configuration::Configuration(QObject *parent)
     : QObject(parent),
       settings_(QSettings::IniFormat, QSettings::UserScope, "matrix-group",
