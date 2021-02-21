@@ -7,7 +7,6 @@ constexpr quint8 kRgbByteSize{3};
 constexpr quint8 kProtocolType{2};
 }  // namespace
 
-// TODO check, variable types
 Configuration::Configuration(QObject *parent) : QObject(parent) {
   LoadSettings();
 }
