@@ -21,6 +21,8 @@ class LIBMUEB_EXPORT MuebTransmitter final : public QObject {
 
   quint32 height() const;
 
+  quint32 pixels() const;
+
   libmueb::Frame frame() const;
 
  private:

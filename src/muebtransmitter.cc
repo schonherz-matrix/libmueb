@@ -106,6 +106,12 @@ quint32 MuebTransmitter::height() const {
   return d->configuration_.ConstFrame().height();
 }
 
+quint32 MuebTransmitter::pixels() const {
+  Q_D(const MuebTransmitter);
+
+  return d->configuration_.pixels();
+}
+
 libmueb::Frame MuebTransmitter::frame() const {
   Q_D(const MuebTransmitter);
 
