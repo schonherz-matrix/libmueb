@@ -2,6 +2,10 @@
 
 #include <QtMath>
 
+namespace {
+constexpr quint8 kRgbByteSize{3};
+}  // namespace
+
 // TODO check, variable types
 Configuration::Configuration(QObject *parent)
     : QObject(parent),
@@ -70,7 +74,8 @@ void Configuration::LoadSettings() {
   width_ = window_per_floor_ * horizontal_pixel_unit_;
   height_ = floors_ * vertical_pixel_unit_;
   factor_ = 8 - color_depth_;
-
+  // Alpha channel is not supported by hardware
+  // The image is stored using a 24-bit RGB format (8-8-8)
   frame_ = QImage(width_, height_, QImage::Format_RGB888);
   frame_.fill(Qt::black);
 
@@ -89,8 +94,8 @@ void Configuration::LoadSettings() {
           : QHostAddress(
                 settings_.value("target_address", "10.6.255.255").toString());
   window_byte_size_ = (color_depth_ >= 3 && color_depth_ < 5)
-                          ? pixels_per_window_ * 3 / 2
-                          : pixels_per_window_ * 3;
+                          ? pixels_per_window_ * kRgbByteSize / 2
+                          : pixels_per_window_ * kRgbByteSize;
   max_windows_per_datagram_ =
       settings_.value("max_windows_per_datagram", windows_).toUInt();
   packet_header_size_ = 2;
@@ -98,7 +103,8 @@ void Configuration::LoadSettings() {
       packet_header_size_ + max_windows_per_datagram_ * window_byte_size_;
   packet_payload_size_ = max_windows_per_datagram_ * window_byte_size_;
   // Uncompressed frame fragment byte size
-  frame_fragment_size_ = max_windows_per_datagram_ * pixels_per_window_ * 3;
+  frame_fragment_size_ =
+      max_windows_per_datagram_ * pixels_per_window_ * kRgbByteSize;
   max_packet_number_ =
       qCeil(static_cast<qreal>(windows_) / max_windows_per_datagram_);
   settings_.endGroup();
