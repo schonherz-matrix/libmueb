@@ -17,22 +17,6 @@ class Configuration : public QObject {
 
   QHostAddress target_address() const;
 
-  quint32 floors() const;
-
-  quint32 rooms_per_floor() const;
-
-  quint32 windows_per_room() const;
-
-  quint32 vertical_pixel_unit() const;
-
-  quint32 horizontal_pixel_unit() const;
-
-  quint32 pixels_per_window() const;
-
-  quint32 window_per_floor() const;
-
-  quint32 windows() const;
-
   quint32 pixels() const;
 
   qint32 width() const;
@@ -41,10 +25,6 @@ class Configuration : public QObject {
 
   quint8 protocol_type() const;
 
-  quint32 window_byte_size() const;
-
-  quint32 max_windows_per_datagram() const;
-
   quint32 packet_header_size() const;
 
   quint32 packet_size() const;
@@ -52,8 +32,6 @@ class Configuration : public QObject {
   quint32 packet_payload_size() const;
 
   quint32 frame_fragment_size() const;
-
-  quint32 remainder_packet_size() const;
 
   quint16 broadcast_animation_port() const;
 
@@ -89,7 +67,6 @@ class Configuration : public QObject {
   quint32 packet_size_;
   quint32 packet_payload_size_;
   quint32 frame_fragment_size_;
-  quint32 remainder_packet_size_;
   quint16 broadcast_animation_port_;
   quint8 max_packet_number_;
   quint8 color_depth_;

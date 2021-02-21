@@ -2,7 +2,6 @@
 
 #include <QtMath>
 
-// TODO check, remove unused parameters
 // TODO check, variable types
 Configuration::Configuration(QObject *parent)
     : QObject(parent),
@@ -15,26 +14,6 @@ QImage Configuration::frame() const { return frame_; }
 
 QHostAddress Configuration::target_address() const { return target_address_; }
 
-quint32 Configuration::floors() const { return floors_; }
-
-quint32 Configuration::rooms_per_floor() const { return rooms_per_floor_; }
-
-quint32 Configuration::windows_per_room() const { return windows_per_room_; }
-
-quint32 Configuration::vertical_pixel_unit() const {
-  return vertical_pixel_unit_;
-}
-
-quint32 Configuration::horizontal_pixel_unit() const {
-  return horizontal_pixel_unit_;
-}
-
-quint32 Configuration::pixels_per_window() const { return pixels_per_window_; }
-
-quint32 Configuration::window_per_floor() const { return window_per_floor_; }
-
-quint32 Configuration::windows() const { return windows_; }
-
 quint32 Configuration::pixels() const { return pixels_; }
 
 qint32 Configuration::width() const { return width_; }
@@ -42,12 +21,6 @@ qint32 Configuration::width() const { return width_; }
 qint32 Configuration::height() const { return height_; }
 
 quint8 Configuration::protocol_type() const { return protocol_type_; }
-
-quint32 Configuration::window_byte_size() const { return window_byte_size_; }
-
-quint32 Configuration::max_windows_per_datagram() const {
-  return max_windows_per_datagram_;
-}
 
 quint32 Configuration::packet_header_size() const {
   return packet_header_size_;
@@ -61,10 +34,6 @@ quint32 Configuration::packet_payload_size() const {
 
 quint32 Configuration::frame_fragment_size() const {
   return frame_fragment_size_;
-}
-
-quint32 Configuration::remainder_packet_size() const {
-  return remainder_packet_size_;
 }
 
 quint16 Configuration::broadcast_animation_port() const {
