@@ -17,6 +17,8 @@ qint32 MuebChannel::width() const { return transmitter_.width(); }
 
 qint32 MuebChannel::height() const { return transmitter_.height(); }
 
+quint32 MuebChannel::pixels() const { return transmitter_.pixels(); }
+
 void MuebChannel::ReceiveFrame(QString frame) {
   auto idx = frame.indexOf(',');
 

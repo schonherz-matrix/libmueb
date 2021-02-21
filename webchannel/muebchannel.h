@@ -15,6 +15,7 @@ class MuebChannel : public QObject {
   Q_OBJECT
   Q_PROPERTY(qint32 width READ width CONSTANT)
   Q_PROPERTY(qint32 height READ height CONSTANT)
+  Q_PROPERTY(qint32 pixels READ pixels CONSTANT)
 
  public:
   explicit MuebChannel(QObject* parent = nullptr);
@@ -22,6 +23,8 @@ class MuebChannel : public QObject {
   qint32 width() const;
 
   qint32 height() const;
+
+  quint32 pixels() const;
 
  signals:
   /*
