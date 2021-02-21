@@ -112,6 +112,12 @@ quint32 MuebTransmitter::pixels() const {
   return d->configuration_.pixels();
 }
 
+qsizetype MuebTransmitter::FrameSizeInBytes() const {
+  Q_D(const MuebTransmitter);
+
+  return d->configuration_.ConstFrame().sizeInBytes();
+}
+
 libmueb::Frame MuebTransmitter::frame() const {
   Q_D(const MuebTransmitter);
 

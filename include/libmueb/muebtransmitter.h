@@ -23,6 +23,8 @@ class LIBMUEB_EXPORT MuebTransmitter final : public QObject {
 
   quint32 pixels() const;
 
+  qsizetype FrameSizeInBytes() const;
+
   libmueb::Frame frame() const;
 
  private:
