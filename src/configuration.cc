@@ -4,6 +4,7 @@
 
 namespace {
 constexpr quint8 kRgbByteSize{3};
+constexpr quint8 kProtocolType{2};
 }  // namespace
 
 // TODO check, variable types
@@ -24,7 +25,7 @@ qint32 Configuration::width() const { return width_; }
 
 qint32 Configuration::height() const { return height_; }
 
-quint8 Configuration::protocol_type() const { return protocol_type_; }
+quint8 Configuration::protocol_type() const { return kProtocolType; }
 
 quint32 Configuration::packet_header_size() const {
   return packet_header_size_;
@@ -81,7 +82,6 @@ void Configuration::LoadSettings() {
 
   // Network protocol specific constants
   settings_.beginGroup("network");
-  protocol_type_ = 2;
   broadcast_animation_port_ =
       settings_.value("broadcast_animation_port", 10000).toUInt();
 

@@ -60,7 +60,6 @@ class Configuration : public QObject {
   qint32 width_;
   qint32 height_;
   //
-  quint8 protocol_type_;
   quint32 window_byte_size_;
   quint32 max_windows_per_datagram_;
   quint32 packet_header_size_;
