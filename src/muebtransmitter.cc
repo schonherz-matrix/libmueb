@@ -9,6 +9,12 @@ MuebTransmitter::MuebTransmitter(QObject* parent)
 
 MuebTransmitter::~MuebTransmitter() { delete d_ptr_; }
 
+MuebTransmitter& MuebTransmitter::Instance() {
+  static MuebTransmitter instance;
+
+  return instance;
+}
+
 void MuebTransmitter::SendFrame(libmueb::Frame frame) {
   Q_D(MuebTransmitter);
 
@@ -88,12 +94,6 @@ void MuebTransmitter::SendFrame(libmueb::Frame frame) {
       d->socket_.writeDatagram(d->datagram_);
     }
   }
-}
-
-MuebTransmitter& MuebTransmitter::Instance() {
-  static MuebTransmitter instance;
-
-  return instance;
 }
 
 quint32 MuebTransmitter::width() const {
