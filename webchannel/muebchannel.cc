@@ -13,6 +13,10 @@ MuebChannel::MuebChannel(QObject *parent)
           &MuebChannel::FrameChanged);
 }
 
+qint32 MuebChannel::width() const { return transmitter_.width(); }
+
+qint32 MuebChannel::height() const { return transmitter_.height(); }
+
 void MuebChannel::ReceiveFrame(QString frame) {
   auto idx = frame.indexOf(',');
 
