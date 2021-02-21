@@ -15,83 +15,71 @@ QImage Configuration::frame() const { return frame_; }
 
 QHostAddress Configuration::target_address() const { return target_address_; }
 
-std::uint32_t Configuration::floors() const { return floors_; }
+quint32 Configuration::floors() const { return floors_; }
 
-std::uint32_t Configuration::rooms_per_floor() const {
-  return rooms_per_floor_;
-}
+quint32 Configuration::rooms_per_floor() const { return rooms_per_floor_; }
 
-std::uint32_t Configuration::windows_per_room() const {
-  return windows_per_room_;
-}
+quint32 Configuration::windows_per_room() const { return windows_per_room_; }
 
-std::uint32_t Configuration::vertical_pixel_unit() const {
+quint32 Configuration::vertical_pixel_unit() const {
   return vertical_pixel_unit_;
 }
 
-std::uint32_t Configuration::horizontal_pixel_unit() const {
+quint32 Configuration::horizontal_pixel_unit() const {
   return horizontal_pixel_unit_;
 }
 
-std::uint32_t Configuration::pixels_per_window() const {
-  return pixels_per_window_;
-}
+quint32 Configuration::pixels_per_window() const { return pixels_per_window_; }
 
-std::uint32_t Configuration::window_per_floor() const {
-  return window_per_floor_;
-}
+quint32 Configuration::window_per_floor() const { return window_per_floor_; }
 
-std::uint32_t Configuration::windows() const { return windows_; }
+quint32 Configuration::windows() const { return windows_; }
 
-std::uint32_t Configuration::pixels() const { return pixels_; }
+quint32 Configuration::pixels() const { return pixels_; }
 
-std::int32_t Configuration::width() const { return width_; }
+qint32 Configuration::width() const { return width_; }
 
-std::int32_t Configuration::height() const { return height_; }
+qint32 Configuration::height() const { return height_; }
 
-std::uint8_t Configuration::protocol_type() const { return protocol_type_; }
+quint8 Configuration::protocol_type() const { return protocol_type_; }
 
-std::uint32_t Configuration::window_byte_size() const {
-  return window_byte_size_;
-}
+quint32 Configuration::window_byte_size() const { return window_byte_size_; }
 
-std::uint32_t Configuration::max_windows_per_datagram() const {
+quint32 Configuration::max_windows_per_datagram() const {
   return max_windows_per_datagram_;
 }
 
-std::uint32_t Configuration::packet_header_size() const {
+quint32 Configuration::packet_header_size() const {
   return packet_header_size_;
 }
 
-std::uint32_t Configuration::packet_size() const { return packet_size_; }
+quint32 Configuration::packet_size() const { return packet_size_; }
 
-std::uint32_t Configuration::packet_payload_size() const {
+quint32 Configuration::packet_payload_size() const {
   return packet_payload_size_;
 }
 
-std::uint32_t Configuration::frame_fragment_size() const {
+quint32 Configuration::frame_fragment_size() const {
   return frame_fragment_size_;
 }
 
-std::uint32_t Configuration::remainder_packet_size() const {
+quint32 Configuration::remainder_packet_size() const {
   return remainder_packet_size_;
 }
 
-std::uint16_t Configuration::unicast_animation_port() const {
+quint16 Configuration::unicast_animation_port() const {
   return unicast_animation_port_;
 }
 
-std::uint16_t Configuration::broadcast_animation_port() const {
+quint16 Configuration::broadcast_animation_port() const {
   return broadcast_animation_port_;
 }
 
-std::uint8_t Configuration::max_packet_number() const {
-  return max_packet_number_;
-}
+quint8 Configuration::max_packet_number() const { return max_packet_number_; }
 
-std::uint8_t Configuration::color_depth() const { return color_depth_; }
+quint8 Configuration::color_depth() const { return color_depth_; }
 
-std::uint8_t Configuration::factor() const { return factor_; }
+quint8 Configuration::factor() const { return factor_; }
 
 bool Configuration::debug_mode() const { return debug_mode_; }
 
@@ -149,7 +137,7 @@ void Configuration::LoadSettings() {
       packet_header_size_ + max_windows_per_datagram_ * window_byte_size_;
   packet_payload_size_ = max_windows_per_datagram_ * window_byte_size_;
   frame_fragment_size_ = max_windows_per_datagram_ * pixels_per_window_ * 3;
-  max_packet_number_ = static_cast<std::uint32_t>(
+  max_packet_number_ = static_cast<quint32>(
       std::ceil(static_cast<float>(windows_) / max_windows_per_datagram_));
   settings_.endGroup();
 

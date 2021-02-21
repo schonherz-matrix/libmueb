@@ -94,13 +94,13 @@ MuebTransmitter& MuebTransmitter::Instance() {
   return instance;
 }
 
-std::int32_t MuebTransmitter::width() const {
+quint32 MuebTransmitter::width() const {
   Q_D(const MuebTransmitter);
 
   return d->configuration_.width();
 }
 
-std::int32_t MuebTransmitter::height() const {
+quint32 MuebTransmitter::height() const {
   Q_D(const MuebTransmitter);
 
   return d->configuration_.height();

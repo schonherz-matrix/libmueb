@@ -2,7 +2,6 @@
 #define LIBMUEB_MUEBTRANSMITTER_H_
 
 #include <QObject>
-#include <cstdint>
 
 #include "libmueb_global.h"
 
@@ -18,9 +17,9 @@ class LIBMUEB_EXPORT MuebTransmitter final : public QObject {
 
   static MuebTransmitter& Instance();
 
-  std::int32_t width() const;
+  quint32 width() const;
 
-  std::int32_t height() const;
+  quint32 height() const;
 
   libmueb::Frame frame() const;
 
