@@ -97,6 +97,7 @@ void Configuration::LoadSettings() {
   packet_size_ =
       packet_header_size_ + max_windows_per_datagram_ * window_byte_size_;
   packet_payload_size_ = max_windows_per_datagram_ * window_byte_size_;
+  // Uncompressed frame fragment byte size
   frame_fragment_size_ = max_windows_per_datagram_ * pixels_per_window_ * 3;
   max_packet_number_ =
       qCeil(static_cast<qreal>(windows_) / max_windows_per_datagram_);
