@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libmueb websocket test</title>
+    <script type="text/javascript">
+        window.onload = function () {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(0, 0, 32, 26);
+
+            const socket = new WebSocket("ws://localhost:12346");
+
+            socket.onopen = function (event) {
+                canvas.toBlob(function (blob) {
+                    socket.send(blob);
+                }, 'image/png');
+            }
+
+            socket.onmessage = function (event) {
+                console.log(event.data);
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+    <canvas id="canvas" width="32" height="26"></canvas>
+</body>
+
+</html>
