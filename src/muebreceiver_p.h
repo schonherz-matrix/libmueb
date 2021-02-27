@@ -15,7 +15,9 @@ class MuebReceiverPrivate {
 
  public:
   explicit MuebReceiverPrivate(MuebReceiver *receiver)
-      : frame(configuration.frame()), q_ptr(receiver) {
+      : configuration(Configuration::Instance()),
+        frame(configuration.frame()),
+        q_ptr(receiver) {
     socket.bind(
         configuration.broadcast_animation_port(),
         QAbstractSocket::ShareAddress | QAbstractSocket::ReuseAddressHint);
@@ -29,7 +31,7 @@ class MuebReceiverPrivate {
                .arg(configuration.broadcast_animation_port());
   }
 
-  Configuration configuration;
+  Configuration &configuration;
   libmueb::Frame frame;
   QUdpSocket socket;
   MuebReceiver *q_ptr;

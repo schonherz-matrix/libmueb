@@ -71,6 +71,12 @@ Configuration::Configuration(QObject *parent) : QObject(parent) {
   // TODO Configuration check
 }
 
+Configuration &Configuration::Instance() {
+  static Configuration instance;
+
+  return instance;
+}
+
 QImage Configuration::frame() const { return frame_; }
 
 const QImage &Configuration::ConstFrame() const { return frame_; }

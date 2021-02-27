@@ -11,9 +11,10 @@ namespace libmueb {
 
 class Configuration : public QObject {
   Q_OBJECT
+  Q_DISABLE_COPY(Configuration)
 
  public:
-  explicit Configuration(QObject* parent = nullptr);
+  static Configuration& Instance();
 
   QImage frame() const;
   const QImage& ConstFrame() const;
@@ -55,6 +56,9 @@ class Configuration : public QObject {
   quint8 color_depth_;
   quint8 factor_;
   bool debug_mode_;
+
+  explicit Configuration(QObject* parent = nullptr);
+  ~Configuration() = default;
 };
 
 }  // namespace libmueb

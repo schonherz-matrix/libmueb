@@ -19,7 +19,8 @@ class MuebTransmitterPrivate {
 
  public:
   explicit MuebTransmitterPrivate(MuebTransmitter* transmitter)
-      : datagram_(QByteArray(), configuration_.target_address(),
+      : configuration_(Configuration::Instance()),
+        datagram_(QByteArray(), configuration_.target_address(),
                   configuration_.broadcast_animation_port()),
         q_ptr(transmitter) {
     qInfo().noquote()
@@ -29,7 +30,7 @@ class MuebTransmitterPrivate {
                .arg(configuration_.broadcast_animation_port());
   }
 
-  Configuration configuration_;
+  Configuration& configuration_;
   QUdpSocket socket_;
   QNetworkDatagram datagram_;
   MuebTransmitter* q_ptr;
