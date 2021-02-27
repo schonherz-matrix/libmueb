@@ -16,6 +16,7 @@ class Configuration final {
   static Configuration& Instance();
 
   QImage frame() const;
+
   const QImage& ConstFrame() const;
 
   QHostAddress target_address() const;

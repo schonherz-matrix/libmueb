@@ -5,8 +5,10 @@
 namespace libmueb {
 
 namespace {
+
 constexpr quint8 kRgbByteSize{3};
 constexpr quint8 kProtocolType{2};
+
 }  // namespace
 
 Configuration::Configuration() {

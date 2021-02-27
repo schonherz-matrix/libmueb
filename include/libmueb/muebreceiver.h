@@ -17,6 +17,7 @@ class LIBMUEB_EXPORT MuebReceiver final : public QObject {
 
  public:
   static MuebReceiver& Instance();
+
   QPixmap frame() const;
 
  signals:

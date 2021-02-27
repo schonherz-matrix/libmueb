@@ -15,9 +15,9 @@ class LIBMUEB_EXPORT MuebTransmitter final : public QObject {
   Q_DISABLE_COPY(MuebTransmitter)
 
  public:
-  void SendFrame(libmueb::Frame frame);
-
   static MuebTransmitter& Instance();
+
+  void SendFrame(libmueb::Frame frame);
 
   quint32 width() const;
 

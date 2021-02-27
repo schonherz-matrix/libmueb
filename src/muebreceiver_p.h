@@ -15,25 +15,25 @@ class MuebReceiverPrivate {
 
  public:
   explicit MuebReceiverPrivate(MuebReceiver *receiver)
-      : configuration(Configuration::Instance()),
-        frame(configuration.frame()),
+      : configuration_(Configuration::Instance()),
+        frame_(configuration_.frame()),
         q_ptr(receiver) {
-    socket.bind(
-        configuration.broadcast_animation_port(),
+    socket_.bind(
+        configuration_.broadcast_animation_port(),
         QAbstractSocket::ShareAddress | QAbstractSocket::ReuseAddressHint);
 
-    QObject::connect(&socket, &QUdpSocket::readyRead, receiver,
+    QObject::connect(&socket_, &QUdpSocket::readyRead, receiver,
                      &MuebReceiver::ReadPendingDatagrams);
     qInfo().noquote()
         << QString(
                "[MuebReceiver(%1)] UDP Socket will receive packets on port %2")
-               .arg(configuration.debug_mode() ? "DEBUG MODE" : "NORMAL MODE")
-               .arg(configuration.broadcast_animation_port());
+               .arg(configuration_.debug_mode() ? "DEBUG MODE" : "NORMAL MODE")
+               .arg(configuration_.broadcast_animation_port());
   }
 
-  Configuration &configuration;
-  libmueb::Frame frame;
-  QUdpSocket socket;
+  Configuration &configuration_;
+  libmueb::Frame frame_;
+  QUdpSocket socket_;
   MuebReceiver *q_ptr;
 };
 
