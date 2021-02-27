@@ -1,4 +1,4 @@
-#include <QApplication>
+#include <QGuiApplication>
 #include <QWebChannel>
 #include <QWebSocketServer>
 
@@ -7,7 +7,7 @@
 #include "shared/websockettransport.h"
 
 int main(int argc, char *argv[]) {
-  QApplication a(argc, argv);
+  QGuiApplication a(argc, argv);
 
   // setup the QWebSocketServer
   QWebSocketServer server(QStringLiteral("QWebChannel libmueb Server"),
