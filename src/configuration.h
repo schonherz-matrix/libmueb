@@ -9,7 +9,7 @@
 
 namespace libmueb {
 
-class Configuration {
+class Configuration final {
   Q_DISABLE_COPY(Configuration)
 
  public:
