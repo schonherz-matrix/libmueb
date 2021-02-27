@@ -55,8 +55,6 @@ class Configuration : public QObject {
   quint8 color_depth_;
   quint8 factor_;
   bool debug_mode_;
-
-  void LoadSettings();
 };
 
 }  // namespace libmueb

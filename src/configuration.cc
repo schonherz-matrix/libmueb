@@ -10,46 +10,6 @@ constexpr quint8 kProtocolType{2};
 }  // namespace
 
 Configuration::Configuration(QObject *parent) : QObject(parent) {
-  LoadSettings();
-}
-
-QImage Configuration::frame() const { return frame_; }
-
-const QImage &Configuration::ConstFrame() const { return frame_; }
-
-QHostAddress Configuration::target_address() const { return target_address_; }
-
-quint32 Configuration::pixels() const { return pixels_; }
-
-quint8 Configuration::protocol_type() const { return kProtocolType; }
-
-quint32 Configuration::packet_header_size() const {
-  return packet_header_size_;
-}
-
-quint32 Configuration::packet_size() const { return packet_size_; }
-
-quint32 Configuration::packet_payload_size() const {
-  return packet_payload_size_;
-}
-
-quint32 Configuration::frame_fragment_size() const {
-  return frame_fragment_size_;
-}
-
-quint16 Configuration::broadcast_animation_port() const {
-  return broadcast_animation_port_;
-}
-
-quint8 Configuration::max_packet_number() const { return max_packet_number_; }
-
-quint8 Configuration::color_depth() const { return color_depth_; }
-
-quint8 Configuration::factor() const { return factor_; }
-
-bool Configuration::debug_mode() const { return debug_mode_; }
-
-void Configuration::LoadSettings() {
   QSettings settings(QSettings::IniFormat, QSettings::UserScope, "matrix-group",
                      "libmueb");
   // Building specific constants
@@ -110,5 +70,41 @@ void Configuration::LoadSettings() {
 
   // TODO Configuration check
 }
+
+QImage Configuration::frame() const { return frame_; }
+
+const QImage &Configuration::ConstFrame() const { return frame_; }
+
+QHostAddress Configuration::target_address() const { return target_address_; }
+
+quint32 Configuration::pixels() const { return pixels_; }
+
+quint8 Configuration::protocol_type() const { return kProtocolType; }
+
+quint32 Configuration::packet_header_size() const {
+  return packet_header_size_;
+}
+
+quint32 Configuration::packet_size() const { return packet_size_; }
+
+quint32 Configuration::packet_payload_size() const {
+  return packet_payload_size_;
+}
+
+quint32 Configuration::frame_fragment_size() const {
+  return frame_fragment_size_;
+}
+
+quint16 Configuration::broadcast_animation_port() const {
+  return broadcast_animation_port_;
+}
+
+quint8 Configuration::max_packet_number() const { return max_packet_number_; }
+
+quint8 Configuration::color_depth() const { return color_depth_; }
+
+quint8 Configuration::factor() const { return factor_; }
+
+bool Configuration::debug_mode() const { return debug_mode_; }
 
 }  // namespace libmueb
