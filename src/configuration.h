@@ -9,8 +9,7 @@
 
 namespace libmueb {
 
-class Configuration : public QObject {
-  Q_OBJECT
+class Configuration {
   Q_DISABLE_COPY(Configuration)
 
  public:
@@ -57,7 +56,7 @@ class Configuration : public QObject {
   quint8 factor_;
   bool debug_mode_;
 
-  explicit Configuration(QObject* parent = nullptr);
+  Configuration();
   ~Configuration() = default;
 };
 
