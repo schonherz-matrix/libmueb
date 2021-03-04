@@ -14,6 +14,10 @@ constexpr quint8 kProtocolType{2};
 Configuration::Configuration() {
   QSettings settings(QSettings::IniFormat, QSettings::UserScope, "matrix-group",
                      "libmueb");
+  if (settings.status() != QSettings::NoError) {
+    qFatal("[Configuration] Configuration error aborting!");
+  }
+
   // Building specific constants
   settings.beginGroup("building");
   quint32 floors = settings.value("floors", 13).toUInt();
