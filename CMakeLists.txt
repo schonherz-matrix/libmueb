@@ -32,3 +32,4 @@ find_package(
 add_subdirectory(src)
 add_subdirectory(webchannel)
 add_subdirectory(websocket)
+add_subdirectory(tests)
