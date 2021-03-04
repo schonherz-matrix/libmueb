@@ -74,7 +74,12 @@ Configuration::Configuration() {
       qCeil(static_cast<qreal>(windows) / max_windows_per_datagram);
   settings.endGroup();
 
-  // TODO Configuration check
+  if (settings.status() != QSettings::NoError || vertical_pixel_unit % 2 != 0 ||
+      horizontal_pixel_unit % 2 != 0 || color_depth_ < 3 || color_depth_ > 8 ||
+      broadcast_animation_port_ < 0 ||
+      windows % max_windows_per_datagram != 0 || packet_size_ > 1472) {
+    qFatal("[Configuration] Configuration error aborting!");
+  }
 }
 
 Configuration &Configuration::Instance() {
