@@ -43,11 +43,8 @@ class Task : public QObject {
     QThread::sleep(1);
 
     // Row test
-    frame.fill(Qt::black);
-    transmitter.SendFrame(frame);
     for (int row = 0; row < 26; ++row) {
       frame.fill(Qt::black);
-      transmitter.SendFrame(frame);
       for (int col = 0; col < 32; ++col) {
         frame.setPixelColor(col, row, Qt::red);
       }
@@ -56,11 +53,8 @@ class Task : public QObject {
     }
 
     // Column test
-    frame.fill(Qt::black);
-    transmitter.SendFrame(frame);
     for (int col = 0; col < 32; ++col) {
       frame.fill(Qt::black);
-      transmitter.SendFrame(frame);
       for (int row = 0; row < 26; ++row) {
         frame.setPixelColor(col, row, Qt::red);
       }
