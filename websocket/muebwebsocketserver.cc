@@ -60,7 +60,9 @@ void MuebWebSocketServer::ProcessBinaryMessage(QByteArray message) {
     }
   }
 
-  transmitter_.SendFrame(QImage::fromData(message, "PNG"));
+  transmitter_.SendFrame(QImage(
+      reinterpret_cast<const uchar *>(message.constData()),
+      transmitter_.width(), transmitter_.height(), QImage::Format_RGBA8888));
 }
 
 void MuebWebSocketServer::SocketDisconnected() {

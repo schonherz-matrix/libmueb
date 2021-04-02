@@ -16,16 +16,13 @@
             const socket = new WebSocket("ws://localhost:12346");
 
             socket.onopen = function (event) {
-                canvas.toBlob(function (blob) {
-                    socket.send(blob);
-                }, 'image/png');
+                socket.send(ctx.getImageData(0, 0, 32, 26).data.buffer);
             }
 
             socket.onmessage = function (event) {
                 console.log(event.data);
             }
         }
-
     </script>
 </head>
 
