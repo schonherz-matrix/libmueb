@@ -7,27 +7,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Libmueb websocket test</title>
     <script type="text/javascript">
-        window.onload = function () {
-            const canvas = document.getElementById('canvas');
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = 'blue';
-            ctx.fillRect(0, 0, 32, 26);
+        let canvas;
+        let ctx;
+        let socket;
 
-            const socket = new WebSocket("ws://localhost:12346");
+        window.onload = function () {
+            canvas = document.getElementById('canvas');
+            ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            socket = new WebSocket("ws://localhost:12346");
 
             socket.onopen = function (event) {
-                socket.send(ctx.getImageData(0, 0, 32, 26).data.buffer);
+                socket.send(ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer);
             }
 
             socket.onmessage = function (event) {
-                console.log(event.data);
+                canvas.width = event.data.width;
+                canvas.height = event.data.height;
             }
         }
     </script>
 </head>
 
 <body>
-    <canvas id="canvas" width="32" height="26"></canvas>
+    <canvas id="canvas"></canvas>
 </body>
 
 </html>
