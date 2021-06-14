@@ -13,6 +13,8 @@ class Configuration final {
   Q_DISABLE_COPY(Configuration)
 
  public:
+  static constexpr quint8 kFactor{4};
+
   static Configuration& Instance();
 
   QImage frame() const;
@@ -39,8 +41,6 @@ class Configuration final {
 
   quint8 color_depth() const;
 
-  quint8 factor() const;
-
   bool debug_mode() const;
 
  private:
@@ -54,7 +54,6 @@ class Configuration final {
   quint16 broadcast_animation_port_;
   quint8 max_packet_number_;
   quint8 color_depth_;
-  quint8 factor_;
   bool debug_mode_;
 
   Configuration();

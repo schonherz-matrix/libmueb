@@ -38,7 +38,6 @@ Configuration::Configuration() {
   quint32 window_per_floor = rooms_per_floor * windows_per_room;
   quint32 windows = floors * window_per_floor;
   pixels_ = windows * pixels_per_window;
-  factor_ = 8 - color_depth_;
   // Alpha channel is not supported by hardware
   // The image is stored using a 24-bit RGB format (8-8-8)
   frame_ = QImage(window_per_floor * horizontal_pixel_unit,
@@ -119,8 +118,6 @@ quint16 Configuration::broadcast_animation_port() const {
 quint8 Configuration::max_packet_number() const { return max_packet_number_; }
 
 quint8 Configuration::color_depth() const { return color_depth_; }
-
-quint8 Configuration::factor() const { return factor_; }
 
 bool Configuration::debug_mode() const { return debug_mode_; }
 

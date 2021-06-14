@@ -58,7 +58,7 @@ class MuebTransmitterPrivate {
 
         // Compress 2 color components into 1 byte
         if (msb) {
-          compressed_colors.append(color << configuration_.factor());
+          compressed_colors.append(color << Configuration::kFactor);
         } else {
           compressed_colors.back() = compressed_colors.back() | color;
         }

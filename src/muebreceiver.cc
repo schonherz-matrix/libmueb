@@ -65,8 +65,12 @@ void MuebReceiver::ReadPendingDatagrams() {
       if (d->configuration_.color_depth() < 5) {
         for (auto &i : data) {
           *frame_begin = i & 0xf0;
+          *frame_begin <<=
+              Configuration::kFactor - d->configuration_.color_depth();
           frame_begin++;
-          *frame_begin = (i & 0x0f) << d->configuration_.factor();
+          *frame_begin = (i & 0x0f) << Configuration::kFactor;
+          *frame_begin <<=
+              Configuration::kFactor - d->configuration_.color_depth();
           frame_begin++;
         }
         // No compression
