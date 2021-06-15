@@ -21,7 +21,7 @@ set(CMAKE_DEBUG_POSTFIX _d)
 set(BUILD_WITH_CONAN OFF)
 include(conanbuildinfo.cmake OPTIONAL)
 if(BUILD_WITH_CONAN)
-conan_basic_setup()
+  conan_basic_setup()
 endif()
 
 find_package(
@@ -30,6 +30,5 @@ find_package(
   REQUIRED)
 
 add_subdirectory(src)
-add_subdirectory(webchannel)
 add_subdirectory(websocket)
 add_subdirectory(tests)
