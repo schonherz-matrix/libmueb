@@ -16,19 +16,15 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(CMAKE_DEBUG_POSTFIX _d)
+set(ENABLE_WEBSOCKET FALSE)
+set(ENABLE_TESTS FALSE)
 
-set(BUILD_WITH_CONAN OFF)
-include(conanbuildinfo.cmake OPTIONAL)
-if(BUILD_WITH_CONAN)
-  conan_basic_setup()
-endif()
-
-find_package(
-  Qt5
-  COMPONENTS Core Gui Network Concurrent
-  REQUIRED)
+find_package(qt)
 
 add_subdirectory(src)
-add_subdirectory(websocket)
-add_subdirectory(tests)
+if(ENABLE_WEBSOCKET)
+  add_subdirectory(websocket)
+endif()
+if(ENABLE_TESTS)
+  add_subdirectory(tests)
+endif()

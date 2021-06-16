@@ -5,29 +5,38 @@ class LibmuebConan(ConanFile):
     name = "libmueb"
     version = "4.0"
     description = "Schönherz Mátrix network library written in C++ using Qt"
-    url = "https://git.sch.bme.hu/matrix-group/libmueb-qt"
+    url = "https://git.sch.bme.hu/kszk/schmatrix/libmueb"
     license = "LGPL-3.0-or-later"
     author = "Zsombor Bodnár (bodzsoaa@sch.bme.hu)"
-    topics = ("C++", "Qt 6", "Schönherz Mátrix")
+    topics = ("C++", "Qt 5", "Schönherz Mátrix")
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True], "fPIC": [True]}
-    default_options = {"shared": True, "fPIC": True}
+    options = {"shared": [True, False], "fPIC": [True, False],
+               "websocket": [True, False], "tests": [True, False]}
+    default_options = {"shared": True, "*:shared": True, "fPIC": True, "websocket": False, "tests": False}
     requires = "qt/[^5.15.2]"
     build_requires = "cmake/[^3.17.0]", "ninja/1.10.2"
-    generators = "cmake"
-    exports_sources = "CMakeLists.txt", "!CMakeLists.txt.user", "include/*", "src/*"
+    generators = "cmake_find_package"
+    exports_sources = "CMakeLists.txt", "!CMakeLists.txt.user", "include/*", "src/*", "websocket/*", "tests/*"
 
     def configure(self):
         if self.settings.compiler == "Visual Studio":
             del self.settings.compiler.runtime
+
+        if self.options.websocket:
+            self.options["qt"].qtwebsockets = True
 
     def config_options(self):
         if self.settings.os == "Windows":
             del self.options.fPIC
 
     def build(self):
-        cmake = CMake(self)
-        cmake.definitions["BUILD_WITH_CONAN"] = "ON"
+        cmake = CMake(self, "Ninja")
+        if self.options.websocket:
+            cmake.definitions["ENABLE_WEBSOCKET"] = "TRUE"
+
+        if self.options.tests:
+            cmake.definitions["ENABLE_TESTS"] = "TRUE"
+
         cmake.configure()
         cmake.build()
 
@@ -40,5 +49,4 @@ class LibmuebConan(ConanFile):
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.release.libs = ["muebreceiver", "muebtransmitter"]
-        self.cpp_info.debug.libs = ["muebreceiver_d", "muebtransmitter_d"]
+        self.cpp_info.libs = ["muebreceiver", "muebtransmitter", "mueb"]
