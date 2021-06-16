@@ -15,7 +15,7 @@ class LibmuebConan(ConanFile):
     default_options = {"shared": True, "*:shared": True, "fPIC": True, "websocket": False, "tests": False}
     requires = "qt/[^5.15.2]"
     build_requires = "cmake/[^3.17.0]", "ninja/1.10.2"
-    generators = "cmake_find_package"
+    generators = "cmake_find_package", "cmake_paths"
     exports_sources = "CMakeLists.txt", "!CMakeLists.txt.user", "include/*", "src/*", "websocket/*", "tests/*"
 
     def configure(self):

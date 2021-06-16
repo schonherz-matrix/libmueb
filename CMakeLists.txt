@@ -19,7 +19,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(ENABLE_WEBSOCKET FALSE)
 option(ENABLE_TESTS FALSE)
 
-find_package(qt)
+find_package(Qt5)
 
 add_subdirectory(src)
 if(ENABLE_WEBSOCKET)
