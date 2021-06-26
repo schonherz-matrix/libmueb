@@ -46,8 +46,7 @@ Configuration::Configuration() {
 
   // Network protocol specific constants
   settings.beginGroup("network");
-  broadcast_animation_port_ =
-      settings.value("broadcast_animation_port", 10000).toUInt();
+  animation_port_ = settings.value("animation_port", 50001).toUInt();
 
   // Send packets to localhost
   debug_mode_ = settings.value("debug_mode", false).toBool();
@@ -75,8 +74,8 @@ Configuration::Configuration() {
 
   if (settings.status() != QSettings::NoError || vertical_pixel_unit % 2 != 0 ||
       horizontal_pixel_unit % 2 != 0 || color_depth_ < 3 || color_depth_ > 8 ||
-      broadcast_animation_port_ < 0 ||
-      windows % max_windows_per_datagram != 0 || packet_size_ > 1472) {
+      animation_port_ < 0 || windows % max_windows_per_datagram != 0 ||
+      packet_size_ > 1472) {
     qFatal("[Configuration] Configuration error aborting!");
   }
 }
@@ -111,9 +110,7 @@ quint32 Configuration::frame_fragment_size() const {
   return frame_fragment_size_;
 }
 
-quint16 Configuration::broadcast_animation_port() const {
-  return broadcast_animation_port_;
-}
+quint16 Configuration::animation_port() const { return animation_port_; }
 
 quint8 Configuration::max_packet_number() const { return max_packet_number_; }
 

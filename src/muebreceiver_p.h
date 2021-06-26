@@ -19,7 +19,7 @@ class MuebReceiverPrivate {
         frame_(configuration_.frame()),
         q_ptr(receiver) {
     socket_.bind(
-        configuration_.broadcast_animation_port(),
+        configuration_.animation_port(),
         QAbstractSocket::ShareAddress | QAbstractSocket::ReuseAddressHint);
 
     QObject::connect(&socket_, &QUdpSocket::readyRead, receiver,
@@ -28,7 +28,7 @@ class MuebReceiverPrivate {
         << QString(
                "[MuebReceiver(%1)] UDP Socket will receive packets on port %2")
                .arg(configuration_.debug_mode() ? "DEBUG MODE" : "NORMAL MODE")
-               .arg(configuration_.broadcast_animation_port());
+               .arg(configuration_.animation_port());
   }
 
   Configuration &configuration_;
