@@ -24,8 +24,7 @@ class MuebTransmitterPrivate {
                   configuration_.animation_port()),
         q_ptr(transmitter) {
     qInfo().noquote()
-        << QString("[MuebTransmitter(%1)] UDP Socket will send frame to %2:%3")
-               .arg(configuration_.debug_mode() ? "DEBUG MODE" : "NORMAL MODE")
+        << QString("[MuebTransmitter] UDP Socket will send frame to %2:%3")
                .arg(configuration_.target_address().toString())
                .arg(configuration_.animation_port());
   }

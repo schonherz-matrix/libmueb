@@ -41,8 +41,6 @@ class Configuration final {
 
   quint8 color_depth() const;
 
-  bool debug_mode() const;
-
  private:
   QImage frame_;
   QHostAddress target_address_;
@@ -54,7 +52,6 @@ class Configuration final {
   quint16 animation_port_;
   quint8 max_packet_number_;
   quint8 color_depth_;
-  bool debug_mode_;
 
   Configuration();
   ~Configuration() = default;

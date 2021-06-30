@@ -12,7 +12,7 @@ constexpr quint8 kProtocolType{2};
 }  // namespace
 
 Configuration::Configuration() {
-  QSettings settings(QSettings::IniFormat, QSettings::UserScope, "matrix-group",
+  QSettings settings(QSettings::IniFormat, QSettings::UserScope, "schmatrix",
                      "libmueb");
   if (settings.status() != QSettings::NoError) {
     qFatal("[Configuration] Configuration error aborting!");
@@ -47,15 +47,8 @@ Configuration::Configuration() {
   // Network protocol specific constants
   settings.beginGroup("network");
   animation_port_ = settings.value("animation_port", 50001).toUInt();
-
-  // Send packets to localhost
-  debug_mode_ = settings.value("debug_mode", false).toBool();
-
   target_address_ =
-      (debug_mode_)
-          ? QHostAddress("127.0.0.1")
-          : QHostAddress(
-                settings.value("target_address", "10.6.255.255").toString());
+      QHostAddress(settings.value("target_address", "10.6.255.255").toString());
   quint32 window_byte_size = (color_depth_ >= 3 && color_depth_ < 5)
                                  ? pixels_per_window * kRgbByteSize / 2
                                  : pixels_per_window * kRgbByteSize;
@@ -115,7 +108,5 @@ quint16 Configuration::animation_port() const { return animation_port_; }
 quint8 Configuration::max_packet_number() const { return max_packet_number_; }
 
 quint8 Configuration::color_depth() const { return color_depth_; }
-
-bool Configuration::debug_mode() const { return debug_mode_; }
 
 }  // namespace libmueb

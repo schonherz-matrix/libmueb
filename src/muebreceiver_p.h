@@ -19,15 +19,22 @@ class MuebReceiverPrivate {
         frame_(configuration_.frame()),
         q_ptr(receiver) {
     socket_.bind(
+        (configuration_.target_address().protocol() ==
+         QAbstractSocket::IPv4Protocol)
+            ? QHostAddress::AnyIPv4
+            : QHostAddress::AnyIPv6,
         configuration_.animation_port(),
         QAbstractSocket::ShareAddress | QAbstractSocket::ReuseAddressHint);
 
+    if (configuration_.target_address().isMulticast()) {
+      socket_.joinMulticastGroup(configuration_.target_address());
+    }
+
     QObject::connect(&socket_, &QUdpSocket::readyRead, receiver,
                      &MuebReceiver::ReadPendingDatagrams);
+
     qInfo().noquote()
-        << QString(
-               "[MuebReceiver(%1)] UDP Socket will receive packets on port %2")
-               .arg(configuration_.debug_mode() ? "DEBUG MODE" : "NORMAL MODE")
+        << QString("[MuebReceiver] UDP Socket will receive packets on port %2")
                .arg(configuration_.animation_port());
   }
 
