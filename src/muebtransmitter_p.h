@@ -23,6 +23,8 @@ class MuebTransmitterPrivate {
         datagram_(QByteArray(), configuration_.target_address(),
                   configuration_.animation_port()),
         q_ptr(transmitter) {
+    socket_.setMulticastInterface(configuration_.multicast_interface());
+
     qInfo().noquote()
         << QString("[MuebTransmitter] UDP Socket will send frame to %2:%3")
                .arg(configuration_.target_address().toString())

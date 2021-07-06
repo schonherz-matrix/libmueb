@@ -3,6 +3,7 @@
 
 #include <QHostAddress>
 #include <QImage>
+#include <QNetworkInterface>
 #include <QObject>
 #include <QSettings>
 #include <QtGlobal>
@@ -41,8 +42,11 @@ class Configuration final {
 
   quint8 color_depth() const;
 
+  QNetworkInterface multicast_interface() const;
+
  private:
   QImage frame_;
+  QNetworkInterface multicast_interface_;
   QHostAddress target_address_;
   quint32 pixels_;
   quint32 packet_header_size_;

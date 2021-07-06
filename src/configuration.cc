@@ -52,6 +52,11 @@ Configuration::Configuration() {
   quint32 window_byte_size = (color_depth_ >= 3 && color_depth_ < 5)
                                  ? pixels_per_window * kRgbByteSize / 2
                                  : pixels_per_window * kRgbByteSize;
+  if (target_address_.isMulticast()) {
+    multicast_interface_ = QNetworkInterface::interfaceFromName(
+        settings.value("multicast_interface").toString());
+  }
+
   quint32 max_windows_per_datagram =
       settings.value("max_windows_per_datagram", windows).toUInt();
   packet_header_size_ = 2;
@@ -68,7 +73,12 @@ Configuration::Configuration() {
   if (settings.status() != QSettings::NoError || vertical_pixel_unit % 2 != 0 ||
       horizontal_pixel_unit % 2 != 0 || color_depth_ < 3 || color_depth_ > 8 ||
       animation_port_ < 0 || windows % max_windows_per_datagram != 0 ||
-      packet_size_ > 1472) {
+      packet_size_ > 1472 ||
+      (target_address_.isMulticast() && !multicast_interface_.isValid())) {
+    if (target_address_.isMulticast()) {
+      qInfo() << "[Configuration] Possible multicast interfaces:"
+              << QNetworkInterface::allInterfaces();
+    }
     qFatal("[Configuration] Configuration error aborting!");
   }
 }
@@ -108,5 +118,9 @@ quint16 Configuration::animation_port() const { return animation_port_; }
 quint8 Configuration::max_packet_number() const { return max_packet_number_; }
 
 quint8 Configuration::color_depth() const { return color_depth_; }
+
+QNetworkInterface Configuration::multicast_interface() const {
+  return multicast_interface_;
+}
 
 }  // namespace libmueb

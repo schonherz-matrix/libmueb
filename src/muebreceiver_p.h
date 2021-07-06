@@ -27,7 +27,8 @@ class MuebReceiverPrivate {
         QAbstractSocket::ShareAddress | QAbstractSocket::ReuseAddressHint);
 
     if (configuration_.target_address().isMulticast()) {
-      socket_.joinMulticastGroup(configuration_.target_address());
+      socket_.joinMulticastGroup(configuration_.target_address(),
+                                 configuration_.multicast_interface());
     }
 
     QObject::connect(&socket_, &QUdpSocket::readyRead, receiver,
