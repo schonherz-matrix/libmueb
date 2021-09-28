@@ -19,7 +19,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(ENABLE_WEBSOCKET FALSE)
 option(ENABLE_TESTS FALSE)
 
-find_package(Qt5)
+find_package(
+  Qt6
+  COMPONENTS Core Gui Network Concurrent
+  REQUIRED)
 
 add_subdirectory(src)
 if(ENABLE_WEBSOCKET)
