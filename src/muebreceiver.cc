@@ -64,9 +64,12 @@ void MuebReceiver::ReadPendingDatagrams() {
       // Uncompress 1 byte into 2 color components
       if (d->configuration_.color_depth() < 5) {
         for (auto &i : data) {
-          *frame_begin = (i & 0xf0) << Configuration::kFactor - d->configuration_.color_depth();
+          *frame_begin = (i & 0xf0) << (Configuration::kFactor -
+                                        d->configuration_.color_depth());
           frame_begin++;
-          *frame_begin = (i & 0x0f) << (Configuration::kFactor + Configuration::kFactor - d->configuration_.color_depth());
+          *frame_begin = (i & 0x0f)
+                         << (Configuration::kFactor + Configuration::kFactor -
+                             d->configuration_.color_depth());
           frame_begin++;
         }
         // No compression
