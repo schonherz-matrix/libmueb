@@ -31,7 +31,7 @@ Configuration::Configuration() {
       settings.value("vertical_pixel_unit", 2).toUInt();
   quint32 horizontal_pixel_unit =
       settings.value("horizontal_pixel_unit", 2).toUInt();
-  color_depth_ = settings.value("color_depth", 3).toUInt();
+  color_depth_ = settings.value("color_depth", 4).toUInt();
   settings.endGroup();
 
   quint32 pixels_per_window = vertical_pixel_unit * horizontal_pixel_unit;
