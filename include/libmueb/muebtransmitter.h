@@ -1,6 +1,7 @@
 #ifndef LIBMUEB_MUEBTRANSMITTER_H_
 #define LIBMUEB_MUEBTRANSMITTER_H_
 
+#include <QByteArray>
 #include <QObject>
 
 #include "libmueb_global.h"
@@ -24,6 +25,16 @@ class LIBMUEB_EXPORT MuebTransmitter final : public QObject {
   quint32 height() const;
 
   quint32 pixels() const;
+
+  quint32 window_per_floor() const;
+
+  quint32 windows() const;
+
+  quint32 floors() const;
+
+  quint8 horizontal_pixel_unit() const;
+
+  quint8 vertical_pixel_unit() const;
 
   qsizetype FrameSizeInBytes() const;
 

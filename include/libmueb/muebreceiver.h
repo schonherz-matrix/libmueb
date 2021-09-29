@@ -1,8 +1,8 @@
 #ifndef LIBMUEB_MUEBRECEIVER_H_
 #define LIBMUEB_MUEBRECEIVER_H_
 
+#include <QImage>
 #include <QObject>
-#include <QPixmap>
 
 #include "libmueb_global.h"
 
@@ -14,14 +14,19 @@ class LIBMUEB_EXPORT MuebReceiver final : public QObject {
   Q_OBJECT
   Q_DECLARE_PRIVATE_D(d_ptr_, MuebReceiver)
   Q_DISABLE_COPY(MuebReceiver)
+  Q_PROPERTY(QImage frame READ frame NOTIFY FrameChanged)
 
  public:
   static MuebReceiver& Instance();
 
-  QPixmap frame() const;
+  QImage frame() const;
+
+  quint8 horizontal_pixel_unit() const;
+
+  quint8 vertical_pixel_unit() const;
 
  signals:
-  void FrameChanged(QPixmap frame);
+  void FrameChanged(QImage frame);
 
  private:
   MuebReceiverPrivate* d_ptr_;

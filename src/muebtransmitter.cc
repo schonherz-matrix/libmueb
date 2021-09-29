@@ -27,16 +27,9 @@ void MuebTransmitter::SendFrame(libmueb::Frame frame) {
 
   frame.convertTo(QImage::Format_RGB888);
 
-  QByteArray reduced_compressed_frame;
   // Frame color reduction and compression
+  QByteArray reduced_compressed_frame;
   if (d->configuration_.color_depth() < 5) {
-    // FIXME Remove in Qt 6
-    reduced_compressed_frame = QtConcurrent::blockingMappedReduced<QByteArray>(
-        frame.constBits(), frame.constBits() + frame.sizeInBytes(),
-        d->reduceColor, d->compressColor,
-        QtConcurrent::OrderedReduce | QtConcurrent::SequentialReduce);
-
-    /* FIXME Add in Qt 6
     reduced_compressed_frame = QtConcurrent::blockingMappedReduced<QByteArray>(
         frame.constBits(), frame.constBits() + frame.sizeInBytes(),
         // Reference:
@@ -56,14 +49,14 @@ void MuebTransmitter::SendFrame(libmueb::Frame frame) {
 
           // Compress 2 color components into 1 byte
           if (msb) {
-            compressed_colors.append(color << d->configuration_.factor());
+            compressed_colors.append(color << Configuration::kFactor);
           } else {
             compressed_colors.back() = compressed_colors.back() | color;
           }
 
           msb = !msb;
         },
-        QtConcurrent::OrderedReduce | QtConcurrent::SequentialReduce);*/
+        QtConcurrent::OrderedReduce | QtConcurrent::SequentialReduce);
   }
   // No compression
   else {
@@ -82,13 +75,9 @@ void MuebTransmitter::SendFrame(libmueb::Frame frame) {
       QByteArray data;
       data.append(d->configuration_.protocol_type())
           .append(i /*packet number*/)
-          .append(reduced_compressed_frame.mid(
+          .append(reduced_compressed_frame.sliced(
               i * d->configuration_.packet_payload_size(),
               d->configuration_.packet_payload_size()));
-      /* FIXME in Qt6
-      .append(reduced_compressed_frame.sliced(
-          i * d->configuration_.packet_payload_size(),
-          d->configuration_.packet_payload_size()));*/
 
       d->datagram_.setData(data);
       d->socket_.writeDatagram(d->datagram_);
@@ -114,6 +103,36 @@ quint32 MuebTransmitter::pixels() const {
   return d->configuration_.pixels();
 }
 
+quint32 MuebTransmitter::window_per_floor() const {
+  Q_D(const MuebTransmitter);
+
+  return d->configuration_.window_per_floor();
+}
+
+quint32 MuebTransmitter::windows() const {
+  Q_D(const MuebTransmitter);
+
+  return d->configuration_.windows();
+}
+
+quint32 MuebTransmitter::floors() const {
+  Q_D(const MuebTransmitter);
+
+  return d->configuration_.floors();
+}
+
+quint8 MuebTransmitter::horizontal_pixel_unit() const {
+  Q_D(const MuebTransmitter);
+
+  return d->configuration_.horizontal_pixel_unit();
+}
+
+quint8 MuebTransmitter::vertical_pixel_unit() const {
+  Q_D(const MuebTransmitter);
+
+  return d->configuration_.vertical_pixel_unit();
+}
+
 qsizetype MuebTransmitter::FrameSizeInBytes() const {
   Q_D(const MuebTransmitter);
 
@@ -125,5 +144,4 @@ libmueb::Frame MuebTransmitter::frame() const {
 
   return d->configuration_.frame();
 }
-
 }  // namespace libmueb

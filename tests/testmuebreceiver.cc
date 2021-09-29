@@ -20,7 +20,9 @@ class Task : public QObject {
   libmueb::MuebReceiver &receiver_;
   QLabel label_;
 
-  void TestFrame(QPixmap frame) { label_.setPixmap(frame.scaled(320, 260)); }
+  void TestFrame(QImage frame) {
+    label_.setPixmap(QPixmap::fromImage(frame.scaled(320, 260)));
+  }
 };
 
 #include "testmuebreceiver.moc"

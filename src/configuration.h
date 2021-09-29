@@ -36,11 +36,21 @@ class Configuration final {
 
   quint32 frame_fragment_size() const;
 
+  quint32 window_per_floor() const;
+
+  quint32 windows() const;
+
+  quint32 floors() const;
+
   quint16 animation_port() const;
 
   quint8 max_packet_number() const;
 
   quint8 color_depth() const;
+
+  quint8 horizontal_pixel_unit() const;
+
+  quint8 vertical_pixel_unit() const;
 
   QNetworkInterface multicast_interface() const;
 
@@ -53,9 +63,14 @@ class Configuration final {
   quint32 packet_size_;
   quint32 packet_payload_size_;
   quint32 frame_fragment_size_;
+  quint32 window_per_floor_;
+  quint32 windows_;
+  quint32 floors_;
   quint16 animation_port_;
   quint8 max_packet_number_;
   quint8 color_depth_;
+  quint8 horizontal_pixel_unit_;
+  quint8 vertical_pixel_unit_;
 
   Configuration();
   ~Configuration() = default;

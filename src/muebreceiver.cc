@@ -17,10 +17,22 @@ MuebReceiver &MuebReceiver::Instance() {
   return instance;
 }
 
-QPixmap MuebReceiver::frame() const {
+QImage MuebReceiver::frame() const {
   Q_D(const MuebReceiver);
 
-  return QPixmap::fromImage(d->frame_);
+  return d->frame_;
+}
+
+quint8 MuebReceiver::horizontal_pixel_unit() const {
+  Q_D(const MuebReceiver);
+
+  return d->configuration_.horizontal_pixel_unit();
+}
+
+quint8 MuebReceiver::vertical_pixel_unit() const {
+  Q_D(const MuebReceiver);
+
+  return d->configuration_.vertical_pixel_unit();
 }
 
 namespace {
@@ -77,7 +89,7 @@ void MuebReceiver::ReadPendingDatagrams() {
         std::memcpy(frame_begin, data.constData(), data.size());
       }
 
-      emit FrameChanged(QPixmap::fromImage(d->frame_));
+      emit FrameChanged(d->frame_);
     }
     // Drop invalid packet
     else {

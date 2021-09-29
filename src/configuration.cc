@@ -20,28 +20,26 @@ Configuration::Configuration() {
 
   // Building specific constants
   settings.beginGroup("building");
-  quint32 floors = settings.value("floors", 13).toUInt();
+  floors_ = settings.value("floors", 13).toUInt();
   quint32 rooms_per_floor = settings.value("rooms_per_floor", 8).toUInt();
   quint32 windows_per_room = settings.value("windows_per_room", 2).toUInt();
   settings.endGroup();
 
   // Hardware specific constants
   settings.beginGroup("hardware");
-  quint32 vertical_pixel_unit =
-      settings.value("vertical_pixel_unit", 2).toUInt();
-  quint32 horizontal_pixel_unit =
-      settings.value("horizontal_pixel_unit", 2).toUInt();
+  vertical_pixel_unit_ = settings.value("vertical_pixel_unit", 2).toUInt();
+  horizontal_pixel_unit_ = settings.value("horizontal_pixel_unit", 2).toUInt();
   color_depth_ = settings.value("color_depth", 4).toUInt();
   settings.endGroup();
 
-  quint32 pixels_per_window = vertical_pixel_unit * horizontal_pixel_unit;
-  quint32 window_per_floor = rooms_per_floor * windows_per_room;
-  quint32 windows = floors * window_per_floor;
+  quint32 pixels_per_window = vertical_pixel_unit_ * horizontal_pixel_unit_;
+  window_per_floor_ = rooms_per_floor * windows_per_room;
+  quint32 windows = floors_ * window_per_floor_;
   pixels_ = windows * pixels_per_window;
   // Alpha channel is not supported by hardware
   // The image is stored using a 24-bit RGB format (8-8-8)
-  frame_ = QImage(window_per_floor * horizontal_pixel_unit,
-                  floors * vertical_pixel_unit, QImage::Format_RGB888);
+  frame_ = QImage(window_per_floor_ * horizontal_pixel_unit_,
+                  floors_ * vertical_pixel_unit_, QImage::Format_RGB888);
   frame_.fill(Qt::black);
 
   // Network protocol specific constants
@@ -70,10 +68,10 @@ Configuration::Configuration() {
       qCeil(static_cast<qreal>(windows) / max_windows_per_datagram);
   settings.endGroup();
 
-  if (settings.status() != QSettings::NoError || vertical_pixel_unit % 2 != 0 ||
-      horizontal_pixel_unit % 2 != 0 || color_depth_ < 3 || color_depth_ > 8 ||
-      animation_port_ < 0 || windows % max_windows_per_datagram != 0 ||
-      packet_size_ > 1472 ||
+  if (settings.status() != QSettings::NoError ||
+      vertical_pixel_unit_ % 2 != 0 || horizontal_pixel_unit_ % 2 != 0 ||
+      color_depth_ < 3 || color_depth_ > 8 || animation_port_ < 0 ||
+      windows % max_windows_per_datagram != 0 || packet_size_ > 1472 ||
       (target_address_.isMulticast() && !multicast_interface_.isValid())) {
     if (target_address_.isMulticast()) {
       qInfo() << "[Configuration] Possible multicast interfaces:"
@@ -113,11 +111,25 @@ quint32 Configuration::frame_fragment_size() const {
   return frame_fragment_size_;
 }
 
+quint32 Configuration::window_per_floor() const { return window_per_floor_; }
+
+quint32 Configuration::windows() const { return windows_; }
+
+quint32 Configuration::floors() const { return floors_; }
+
 quint16 Configuration::animation_port() const { return animation_port_; }
 
 quint8 Configuration::max_packet_number() const { return max_packet_number_; }
 
 quint8 Configuration::color_depth() const { return color_depth_; }
+
+quint8 Configuration::horizontal_pixel_unit() const {
+  return horizontal_pixel_unit_;
+}
+
+quint8 Configuration::vertical_pixel_unit() const {
+  return vertical_pixel_unit_;
+}
 
 QNetworkInterface Configuration::multicast_interface() const {
   return multicast_interface_;

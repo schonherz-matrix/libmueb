@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.17)
 
 project(
-  libmueb
-  VERSION 4.0
-  DESCRIPTION "Schönherz Mátrix network library written in C++ using Qt"
-  LANGUAGES CXX)
+        libmueb
+        VERSION 4.0
+        DESCRIPTION "Schönherz Mátrix network library written in C++ using Qt"
+        LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -20,14 +20,14 @@ option(ENABLE_WEBSOCKET FALSE)
 option(ENABLE_TESTS FALSE)
 
 find_package(
-  Qt6
-  COMPONENTS Core Gui Network Concurrent
-  REQUIRED)
+        Qt6
+        COMPONENTS Core Gui Network Concurrent
+        REQUIRED)
 
 add_subdirectory(src)
-if(ENABLE_WEBSOCKET)
-  add_subdirectory(websocket)
-endif()
-if(ENABLE_TESTS)
-  add_subdirectory(tests)
-endif()
+if (ENABLE_WEBSOCKET)
+    add_subdirectory(websocket)
+endif ()
+if (ENABLE_TESTS)
+    add_subdirectory(tests)
+endif ()
