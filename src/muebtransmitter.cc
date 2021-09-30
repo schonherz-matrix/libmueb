@@ -1,8 +1,15 @@
 #include "muebtransmitter.h"
 
+#include <QList>
+
 #include "muebtransmitter_p.h"
 
 namespace libmueb {
+
+struct CompressedColorsWrapper {
+  QByteArray compressed_colors;
+  bool msb{true};
+};
 
 MuebTransmitter::MuebTransmitter(QObject* parent)
     : QObject(parent), d_ptr_(new MuebTransmitterPrivate(this)) {}
@@ -26,62 +33,52 @@ void MuebTransmitter::SendFrame(libmueb::Frame frame) {
   }
 
   frame.convertTo(QImage::Format_RGB888);
+  QList<uchar> frame_bytes(frame.constBits(),
+                           frame.constBits() + frame.sizeInBytes());
 
   // Frame color reduction and compression
-  QByteArray reduced_compressed_frame;
   if (d->configuration_.color_depth() < 5) {
-    reduced_compressed_frame = QtConcurrent::blockingMappedReduced<QByteArray>(
-        frame.constBits(), frame.constBits() + frame.sizeInBytes(),
+    auto result = QtConcurrent::mappedReduced<CompressedColorsWrapper>(
+        frame_bytes,
         // Reference:
         // http://threadlocalmutex.com/?p=48
         // http://threadlocalmutex.com/?page_id=60
-        [d](const uchar& color) -> uchar {
+        [this](const uchar& color) -> uchar {
+          Q_D(MuebTransmitter);
+          uchar u_color = static_cast<uchar>(color);
+
           if (d->configuration_.color_depth() == 3) {
-            return (color * 225 + 4096) >> 13;
+            return (u_color * 225 + 4096) >> 13;
           } else if (d->configuration_.color_depth() == 4) {
-            return (color * 15 + 135) >> 8;
+            return (u_color * 15 + 135) >> 8;
           }
 
-          return color;
+          return u_color;
         },
-        [d](QByteArray& compressed_colors, const uchar& color) {
-          static bool msb{true};
-
+        [](CompressedColorsWrapper& compressed_colors_wrapper,
+           const uchar& color) {
           // Compress 2 color components into 1 byte
-          if (msb) {
-            compressed_colors.append(color << Configuration::kFactor);
+          if (compressed_colors_wrapper.msb) {
+            compressed_colors_wrapper.compressed_colors.append(
+                color << Configuration::kFactor);
           } else {
-            compressed_colors.back() = compressed_colors.back() | color;
+            compressed_colors_wrapper.compressed_colors.back() =
+                compressed_colors_wrapper.compressed_colors.back() | color;
           }
 
-          msb = !msb;
+          compressed_colors_wrapper.msb = !compressed_colors_wrapper.msb;
         },
         QtConcurrent::OrderedReduce | QtConcurrent::SequentialReduce);
+
+    result.then(this,
+                [this](CompressedColorsWrapper compressed_colors_wrapper) {
+                  SendPacket(compressed_colors_wrapper.compressed_colors);
+                });
   }
   // No compression
   else {
-    reduced_compressed_frame.setRawData(
-        reinterpret_cast<const char*>(frame.bits()), frame.sizeInBytes());
-  }
-
-  if (d->configuration_.max_packet_number() == 1) {
-    reduced_compressed_frame.insert(0, d->configuration_.protocol_type())
-        .insert(1, static_cast<char>(0) /*packet number*/);
-
-    d->datagram_.setData(reduced_compressed_frame);
-    d->socket_.writeDatagram(d->datagram_);
-  } else {
-    for (std::uint8_t i = 0; i < d->configuration_.max_packet_number(); ++i) {
-      QByteArray data;
-      data.append(d->configuration_.protocol_type())
-          .append(i /*packet number*/)
-          .append(reduced_compressed_frame.sliced(
-              i * d->configuration_.packet_payload_size(),
-              d->configuration_.packet_payload_size()));
-
-      d->datagram_.setData(data);
-      d->socket_.writeDatagram(d->datagram_);
-    }
+    SendPacket(QByteArray(reinterpret_cast<const char*>(frame.bits()),
+                          frame.sizeInBytes()));
   }
 }
 
@@ -143,5 +140,29 @@ libmueb::Frame MuebTransmitter::frame() const {
   Q_D(const MuebTransmitter);
 
   return d->configuration_.frame();
+}
+
+void MuebTransmitter::SendPacket(QByteArray reduced_compressed_frame) {
+  Q_D(MuebTransmitter);
+
+  if (d->configuration_.max_packet_number() == 1) {
+    reduced_compressed_frame.insert(0, d->configuration_.protocol_type())
+        .insert(1, static_cast<char>(0) /*packet number*/);
+
+    d->datagram_.setData(reduced_compressed_frame);
+    d->socket_.writeDatagram(d->datagram_);
+  } else {
+    for (std::uint8_t i = 0; i < d->configuration_.max_packet_number(); ++i) {
+      QByteArray data;
+      data.append(d->configuration_.protocol_type())
+          .append(i /*packet number*/)
+          .append(reduced_compressed_frame.sliced(
+              i * d->configuration_.packet_payload_size(),
+              d->configuration_.packet_payload_size()));
+
+      d->datagram_.setData(data);
+      d->socket_.writeDatagram(d->datagram_);
+    }
+  }
 }
 }  // namespace libmueb
