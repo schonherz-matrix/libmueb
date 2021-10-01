@@ -45,6 +45,8 @@ class LIBMUEB_EXPORT MuebTransmitter final : public QObject {
 
   explicit MuebTransmitter(QObject* parent = nullptr);
   ~MuebTransmitter();
+
+  void SendPacket(QByteArray reduced_compressed_frame);
 };
 
 }  // namespace libmueb
