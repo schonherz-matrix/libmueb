@@ -16,7 +16,7 @@
             ctx = canvas.getContext('2d');
             ctx.fillStyle = 'blue';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            socket = new WebSocket("ws://localhost:12346");
+            socket = new WebSocket("ws://localhost:50003");
 
             socket.onopen = function (event) {
                 socket.send(ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer);

@@ -18,7 +18,7 @@ MuebWebSocketServer::MuebWebSocketServer(QObject *parent)
       web_socket_server_(QStringLiteral("libmueb websocket server"),
                          QWebSocketServer::NonSecureMode),
       transmitter_(MuebTransmitter::Instance()) {
-  if (web_socket_server_.listen(QHostAddress::Any, 12346)) {
+  if (web_socket_server_.listen(QHostAddress::Any, 50003)) {
     qInfo() << "Server listening on port" << web_socket_server_.serverPort();
 
     connect(&web_socket_server_, &QWebSocketServer::newConnection, this,
